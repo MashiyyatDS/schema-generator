@@ -7,8 +7,7 @@ import pluralize from 'pluralize'
 const modelFields = defineModel<{ name: string; fields: string[] }>({ required: true })
 
 const codePreview = computed(
-	() => `
-<?php
+	() => `<?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -39,6 +38,6 @@ return new class extends Migration
 )
 
 defineExpose({
-	codePreview: codePreview.value,
+	codePreview,
 })
 </script>

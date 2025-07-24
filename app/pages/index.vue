@@ -5,9 +5,9 @@
 		<div class="w-full max-w-[1280px] self-center">
 			<UStepper ref="stepper" :items="items">
 				<template #content="{ item }">
-					<ModelAndFields v-if="item.title === 'Model & Fields'" ref="modelAndFields" :model-value="modelFields" />
+					<ModelAndFields v-show="item.title === 'Model & Fields'" ref="modelAndFields" :model-value="modelFields" />
 
-					<DatabaseMigrations v-if="item.title === 'Database Migrations'" ref="databaseMigrations" :model-value="modelFields" />
+					<DatabaseMigrations v-show="item.title === 'Database Migrations'" ref="databaseMigrations" :model-value="modelFields" />
 					<!--<CodeViewer v-if="item.title === 'Database Migrations'" :content="phpContent" lang="typescript" />-->
 
 					<UButton label="Generate Files" size="xl" @click="startGenerate" />
@@ -24,6 +24,7 @@
 </template>
 
 <script setup lang="ts">
+import pluralize from 'pluralize'
 import type { StepperItem } from '@nuxt/ui'
 
 const items: StepperItem[] = [
@@ -67,6 +68,19 @@ async function generateFiles(folder: string, filename: string, type: string, con
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ folder, filename, type, content }),
 	})
+}
+
+const modelAndFields = ref<any>(null)
+const databaseMigrations = ref<any>(null)
+
+async function startGenerate() {
+	await generateFiles('generated/Model', modelFields.name, 'php', modelAndFields.value.codePreview)
+	await generateFiles(
+		'generated/migrations',
+		`${Date.now()}_create_${pluralize(convertStringCases(modelFields.name).snake)}_table`,
+		'php',
+		databaseMigrations.value.codePreview
+	)
 
 	useToast().add({
 		title: 'Success',
@@ -74,11 +88,5 @@ async function generateFiles(folder: string, filename: string, type: string, con
 		duration: 1500,
 		color: 'success',
 	})
-}
-
-const modelAndFields = ref<any>(null)
-const databaseMigrations = ref<any>(null)
-function startGenerate() {
-	console.log(modelAndFields.value, databaseMigrations.value)
 }
 </script>

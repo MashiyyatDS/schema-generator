@@ -35,8 +35,7 @@
 const modelFields = defineModel<{ name: string; fields: string[] }>({ required: true })
 
 const codePreview = computed(
-	() => `
-<?php
+	() => `<?php
 
 namespace App\Models;
 
@@ -76,6 +75,6 @@ function addField() {
 }
 
 defineExpose({
-	codePreview: codePreview.value,
+	codePreview,
 })
 </script>
