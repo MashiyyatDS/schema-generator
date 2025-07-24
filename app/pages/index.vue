@@ -8,9 +8,8 @@
 					<ModelAndFields v-show="item.title === 'Model & Fields'" ref="modelAndFields" :model-value="modelFields" />
 
 					<DatabaseMigrations v-show="item.title === 'Database Migrations'" ref="databaseMigrations" :model-value="modelFields" />
-					<!--<CodeViewer v-if="item.title === 'Database Migrations'" :content="phpContent" lang="typescript" />-->
 
-					<UButton label="Generate Files" size="xl" @click="startGenerate" />
+					<UButton v-if="item.title === 'Confirm'" label="Generate Files" size="xl" @click="startGenerate" />
 				</template>
 			</UStepper>
 
@@ -24,8 +23,8 @@
 </template>
 
 <script setup lang="ts">
-import pluralize from 'pluralize'
 import type { StepperItem } from '@nuxt/ui'
+import pluralize from 'pluralize'
 
 const items: StepperItem[] = [
 	{
@@ -74,7 +73,7 @@ const modelAndFields = ref<any>(null)
 const databaseMigrations = ref<any>(null)
 
 async function startGenerate() {
-	await generateFiles('generated/Model', modelFields.name, 'php', modelAndFields.value.codePreview)
+	await generateFiles('generated/Model', convertStringCases(modelFields.name).pascal, 'php', modelAndFields.value.codePreview)
 	await generateFiles(
 		'generated/migrations',
 		`${Date.now()}_create_${pluralize(convertStringCases(modelFields.name).snake)}_table`,
@@ -84,7 +83,7 @@ async function startGenerate() {
 
 	useToast().add({
 		title: 'Success',
-		description: 'File generated Successfully.',
+		description: 'File generated successfully.',
 		duration: 1500,
 		color: 'success',
 	})

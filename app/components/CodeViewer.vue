@@ -1,7 +1,7 @@
 <template>
 	<pre class="relative">
-	    <code ref="codeblock" :class="`language-${lang} rounded-lg`" v-html="highlightedCode"/>
-    </pre>
+	    <code ref="codeblock" :class="`language-${lang} rounded-lg`" :contenteditable="editable" v-html="highlightedCode"/>
+  </pre>
 </template>
 
 <script setup lang="ts">
@@ -11,7 +11,7 @@ import 'highlight.js/styles/tokyo-night-dark.min.css'
 
 hljs.registerLanguage('javascript', javascript)
 
-const props = withDefaults(defineProps<{ content: string; lang: string }>(), {})
+const props = withDefaults(defineProps<{ content: string; lang: string; editable?: boolean }>(), {})
 
 const highlightedCode = ref('')
 

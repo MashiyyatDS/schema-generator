@@ -1,9 +1,18 @@
 <template>
-	<CodeViewer lang="php" :content="codePreview" />
+	<div class="border-1 border-gray-800 rounded-lg p-5">
+		<UFormField v-for="(field, key) in modelFields.fields" :key="key" :label="convertStringCases(field).regular" class="mb-3">
+			<UInput v-model="columns[field]" />
+		</UFormField>
+
+		<CodeViewer lang="php" :content="`\n${codePreview}`" />
+	</div>
 </template>
 
 <script setup lang="ts">
 import pluralize from 'pluralize'
+
+const columns = reactive<{ [key: string]: any }>({})
+
 const modelFields = defineModel<{ name: string; fields: string[] }>({ required: true })
 
 const codePreview = computed(

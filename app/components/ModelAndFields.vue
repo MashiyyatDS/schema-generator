@@ -27,7 +27,7 @@
 			</div>
 		</div>
 
-		<CodeViewer v-if="modelFields.name" :content="codePreview" lang="php" />
+		<CodeViewer v-if="modelFields.name" :content="`\n${codePreview}`" lang="php" />
 	</div>
 </template>
 

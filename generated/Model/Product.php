@@ -9,7 +9,7 @@ use IlluminateDatabaseEloquentBuilder;
 use OwenItAuditingContractsAuditable;
 use IlluminateDatabaseEloquentModel;
 
-class User extends Model implements Auditable
+class Product extends Model implements Auditable
 {
     use HasFactory, SoftDeletes;
     use OwenItAuditingAuditable;
@@ -17,10 +17,11 @@ class User extends Model implements Auditable
     public function scopeSearch(Builder $query, ?string $search): void
     {
         $query->where('id', $search)
-			->orWhere('first_name', 'like', "%{$search}%")
-			->orWhere('middle_name', 'like', "%{$search}%")
-			->orWhere('last_name', 'like', "%{$search}%")
-			->orWhere('email', 'like', "%{$search}%")
+			->orWhere('name', 'like', "%{$search}%")
+			->orWhere('barcode', 'like', "%{$search}%")
+			->orWhere('srp', 'like', "%{$search}%")
+			->orWhere('status', 'like', "%{$search}%")
+			->orWhere('value_added_tax', 'like', "%{$search}%")
 			->orWhere('created_at', 'like', "%{$search}%")
             ->orWhere('updated_at', 'like', "%{$search}%");
     }
