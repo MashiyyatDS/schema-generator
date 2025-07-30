@@ -182,10 +182,8 @@ const fields = reactive<{ [key: string]: LnInput }>({
 function getValues() {
 	const data: Record<string, unknown> = {}
 
-	for (const key in fields) {
-		const field = fields[key]
-
-		data[key] = field?.value !== undefined ? field?.value : field?.nullInUndefined ? null : field?.value
+	for (const [key, field] of Object.entries(fields)) {
+		data[key] = useLnInput(field).getValue()
 	}
 
 	return data
@@ -229,30 +227,8 @@ const values: Record<string, any> = {
 }
 
 function setValues() {
-	for (const key in fields) {
-		const currentField = fields[key]
-
-		if (!currentField) continue
-
-		if (key in values) {
-			switch (currentField.type) {
-				case 'select':
-					if (currentField.dropdown.type === 'object') {
-						const valueKey = currentField.dropdown.valueKey
-
-						currentField.value = currentField.attributes?.multiple ? values[key].map((item: any) => item[valueKey]) : values[key]
-					} else {
-						currentField.value = values[key]
-					}
-
-					break
-
-				default:
-					currentField.value = values[key]
-
-					break
-			}
-		}
+	for (const [key, field] of Object.entries(fields)) {
+		useLnInput(field).setValue(values[key])
 	}
 }
 
