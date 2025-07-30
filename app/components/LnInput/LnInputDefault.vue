@@ -1,0 +1,11 @@
+<template>
+	<UFormField :label="lnInput.label" :description="lnInput.description">
+		<UInput v-bind="lnInput.attributes" v-model="lnInput.value" />
+	</UFormField>
+</template>
+
+<script setup lang="ts">
+import type { LnInputDefault } from '~/types/laranuxt/LnInput'
+
+const lnInput = defineModel<LnInputDefault>({ required: true })
+</script>

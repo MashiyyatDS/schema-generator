@@ -4,5 +4,8 @@ export default defineNuxtConfig({
 	devtools: { enabled: true },
 	modules: ['@nuxt/eslint', '@nuxt/scripts', '@nuxt/ui'],
 	css: ['~/assets/main.css'],
+	imports: {
+		dirs: ['./types/*/*.ts', './composables/*/*.ts'],
+	},
 	ssr: false,
 })
