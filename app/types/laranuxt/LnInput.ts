@@ -1,6 +1,8 @@
 import type { InputProps } from '@nuxt/ui/components/Input.vue'
 import type { SelectProps } from '@nuxt/ui/components/Select.vue'
 import type { TextareaProps } from '@nuxt/ui/components/Textarea.vue'
+import type { CalendarProps } from '@nuxt/ui/components/Calendar.vue'
+import type { PinInputProps } from '@nuxt/ui/components/PinInput.vue'
 
 export interface LnInputBaseInterface {
 	type:
@@ -25,6 +27,10 @@ export interface LnInputBaseInterface {
 	 */
 	hint?: string
 	/**
+	 * Use the `hint` prop to display a help message below the input field.
+	 */
+	help?: string
+	/**
 	 * Use the `description` prop to provide additional information below the label.
 	 */
 	description?: string
@@ -39,11 +45,19 @@ export interface LnInputBaseInterface {
 	/**
 	 * Use the `default` property to set the default value of the input field.
 	 */
-	defaultValue?: unknown
+	defaultValue?: unknown | any
+	/**
+	 * User the `error` property to apply error message and state for the input.
+	 */
+	errors?: string
 	/**
 	 * Use the `value` property to retrieve the model value of the field.
 	 */
 	value?: any
+	/**
+	 * Set the field value into `null` instead of `undefined` if a value is not present.
+	 */
+	nullInUndefined?: boolean
 	validations?: {
 		rules: string
 		messages: Record<string, string>
@@ -94,4 +108,14 @@ export interface LnInputTextarea extends LnInputBaseInterface {
 	attributes: TextareaProps | Record<string, unknown>
 }
 
-export type LnInput = LnInputDefault | LnInputSelect | LnInputTextarea
+export interface LnInputCalendar extends LnInputBaseInterface {
+	type: 'calendar-input'
+	attributes: CalendarProps | Record<string, unknown>
+}
+
+export interface LnInputPin extends LnInputBaseInterface {
+	type: 'pin'
+	attributes: PinInputProps | Record<string, unknown>
+}
+
+export type LnInput = LnInputDefault | LnInputSelect | LnInputTextarea | LnInputCalendar | LnInputPin

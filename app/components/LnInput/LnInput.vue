@@ -1,12 +1,16 @@
 <template>
-	<div :class="[lnInput.grid ?? 'col-span-12']">
-		<LnInputDefault v-if="lnInput.type === 'input'" :model-value="lnInput" />
+	<div v-if="!lnInput.hidden" :class="[lnInput.grid ?? 'col-span-12']">
+		<UFormField :label="lnInput.label" :description="lnInput.description" :error="lnInput.errors" :hint="lnInput.hint" :help="lnInput.help">
+			<LnInputDefault v-if="lnInput.type === 'input'" :model-value="lnInput" />
 
-		<LnInputSelect v-if="lnInput.type === 'select'" :model-value="lnInput" />
+			<LnInputSelect v-if="lnInput.type === 'select'" :model-value="lnInput" />
 
-		<LnInputTextArea v-if="lnInput.type === 'textarea'" :model-value="lnInput" />
+			<LnInputTextArea v-if="lnInput.type === 'textarea'" :model-value="lnInput" />
 
-		<span>{{ lnInput.value }}</span>
+			<LnInputCalendar v-if="lnInput.type === 'calendar-input'" :model-value="lnInput" />
+
+			<LnInputPin v-if="lnInput.type === 'pin'" :model-value="lnInput" />
+		</UFormField>
 	</div>
 </template>
 

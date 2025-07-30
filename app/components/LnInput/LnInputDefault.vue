@@ -1,7 +1,5 @@
 <template>
-	<UFormField :label="lnInput.label" :description="lnInput.description">
-		<UInput v-bind="lnInput.attributes" v-model="lnInput.value" />
-	</UFormField>
+	<UInput v-bind="lnInput.attributes" v-model="lnInput.value" />
 </template>
 
 <script setup lang="ts">
