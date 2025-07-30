@@ -10,6 +10,12 @@
 			<LnInputCalendar v-if="lnInput.type === 'calendar-input'" :model-value="lnInput" />
 
 			<LnInputPin v-if="lnInput.type === 'pin'" :model-value="lnInput" />
+
+			<LnInputNumber v-if="lnInput.type === 'input-number'" :model-value="lnInput" />
+
+			<LnInputSwitch v-if="lnInput.type === 'switch'" :model-value="lnInput" />
+
+			<LnInputSlider v-if="lnInput.type === 'slider'" :model-value="lnInput" />
 		</UFormField>
 	</div>
 </template>

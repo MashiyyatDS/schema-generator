@@ -1,5 +1,5 @@
 <template>
-	<USelect v-model="lnInputSelect.value" :items="items" v-bind="lnInputSelect.attributes" :default-value="lnInputSelect.defaultValue" />
+	<USelect v-model="lnInputSelect.value" :items="items" v-bind="lnInputSelect.attributes" />
 </template>
 
 <script setup lang="ts">

@@ -3,6 +3,9 @@ import type { SelectProps } from '@nuxt/ui/components/Select.vue'
 import type { TextareaProps } from '@nuxt/ui/components/Textarea.vue'
 import type { CalendarProps } from '@nuxt/ui/components/Calendar.vue'
 import type { PinInputProps } from '@nuxt/ui/components/PinInput.vue'
+import type { InputNumberProps } from '@nuxt/ui/components/InputNumber.vue'
+import type { SwitchProps } from '@nuxt/ui/components/Switch.vue'
+import type { SliderProps } from '@nuxt/ui/components/Slider.vue'
 
 export interface LnInputBaseInterface {
 	type:
@@ -43,10 +46,6 @@ export interface LnInputBaseInterface {
 	 */
 	hidden?: boolean
 	/**
-	 * Use the `default` property to set the default value of the input field.
-	 */
-	defaultValue?: unknown | any
-	/**
 	 * User the `error` property to apply error message and state for the input.
 	 */
 	errors?: string
@@ -58,6 +57,10 @@ export interface LnInputBaseInterface {
 	 * Set the field value into `null` instead of `undefined` if a value is not present.
 	 */
 	nullInUndefined?: boolean
+	/**
+	 * Allow validating the input field whenever the data value changes.
+	 */
+	validateOnChange?: boolean
 	validations?: {
 		rules: string
 		messages: Record<string, string>
@@ -118,4 +121,19 @@ export interface LnInputPin extends LnInputBaseInterface {
 	attributes: PinInputProps | Record<string, unknown>
 }
 
-export type LnInput = LnInputDefault | LnInputSelect | LnInputTextarea | LnInputCalendar | LnInputPin
+export interface LnInputNumber extends LnInputBaseInterface {
+	type: 'input-number'
+	attributes: InputNumberProps | Record<string, unknown>
+}
+
+export interface LnInputSwitch extends LnInputBaseInterface {
+	type: 'switch'
+	attributes: SwitchProps | Record<string, unknown>
+}
+
+export interface LnInputSlider extends LnInputBaseInterface {
+	type: 'slider'
+	attributes: SliderProps | Record<string, unknown>
+}
+
+export type LnInput = LnInputDefault | LnInputSelect | LnInputTextarea | LnInputCalendar | LnInputPin | LnInputNumber | LnInputSwitch | LnInputSlider

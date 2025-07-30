@@ -3,47 +3,36 @@
 		<LnInput v-for="(field, key) in fields" :key="key" :model-value="field" />
 
 		<div class="col-span-12 flex gap-1">
-			<UButton label="Get Values" block @click="getValues" />
+			<UButton label="Get Values" block @click="getValues()" />
 			<UButton label="Set Values" block @click="setValues" />
+			<UButton label="Validate" block @click="validateValues" />
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
 import type { LnInput } from '~/types/laranuxt/LnInput'
+import { validate, setLocales, en } from 'robust-validator'
+
+setLocales(en)
 
 const fields = reactive<{ [key: string]: LnInput }>({
-	first_name: {
+	full_name: {
 		type: 'input',
 		grid: 'md:col-span-4 lg:col-span-4 col-span-12',
 		label: 'First Name',
-		description: 'This is a sample description',
 		nullInUndefined: true,
+		validateOnChange: true,
 		attributes: {
 			placeholder: 'This is a sample input',
 			class: 'w-full',
 		},
-	},
-	middle_name: {
-		type: 'input',
-		grid: 'md:col-span-4 lg:col-span-4 col-span-12',
-		label: 'Middle Name',
-		hint: 'Optional',
-		help: 'This field is optional only, you can skip it',
-		description: 'This is a sample description',
-		attributes: {
-			placeholder: 'This is a sample input',
-			class: 'w-full',
-		},
-	},
-	last_name: {
-		type: 'input',
-		grid: 'md:col-span-4 lg:col-span-4 col-span-12',
-		label: 'Last Name',
-		description: 'This is a sample description',
-		attributes: {
-			placeholder: 'This is a sample input',
-			class: 'w-full',
+		validations: {
+			rules: 'required|min:2',
+			messages: {
+				required: 'This field is required.',
+				min: 'Minimum 5 character is required.',
+			},
 		},
 	},
 	description: {
@@ -55,31 +44,38 @@ const fields = reactive<{ [key: string]: LnInput }>({
 			placeholder: 'This is a sample input',
 			class: 'w-full',
 		},
+		validations: {
+			rules: 'required|min:2',
+			messages: {
+				required: 'This field is required.',
+				min: 'Minimum 5 character is required.',
+			},
+		},
 	},
 	gender: {
 		type: 'select',
 		label: 'Select gender',
-		description: 'This is a sample description',
 		grid: 'md:col-span-6 lg:col-span-4 col-span-12',
 		attributes: {
 			placeholder: 'This is a sample input',
 			class: 'w-full',
+			defaultValue: 'Male',
 		},
 		dropdown: {
 			type: 'default',
 			items: ['Male', 'Female'],
 		},
-		defaultValue: 'Male',
 	},
 	users: {
 		type: 'select',
 		label: 'Select User',
 		description: 'This is a sample description',
-		grid: 'md:col-span-6 lg:col-span-4 col-span-12',
+		grid: 'md:col-span-6 lg:col-span-4 col-span-6',
 		attributes: {
 			placeholder: 'This is a sample input',
 			class: 'w-full',
 			multiple: true,
+			defaultValue: 'Male',
 		},
 		dropdown: {
 			type: 'object',
@@ -90,18 +86,18 @@ const fields = reactive<{ [key: string]: LnInput }>({
 			protocol: 'rest',
 			endpoint: 'https://retoolapi.dev/yGHdpo/data',
 		},
-		defaultValue: 'Male',
 	},
 	status: {
 		type: 'select',
 		label: 'Select Status',
 		description: 'This is a sample description',
-		grid: 'md:col-span-6 lg:col-span-4 col-span-12',
+		grid: 'md:col-span-6 lg:col-span-4 col-span-6',
 		attributes: {
 			placeholder: 'This is a sample input',
 			selectedIcon: 'material-symbols:check-box',
 			class: 'w-full',
 			color: 'success',
+			defaultValue: 0,
 		},
 		dropdown: {
 			type: 'object',
@@ -126,19 +122,59 @@ const fields = reactive<{ [key: string]: LnInput }>({
 				},
 			],
 		},
-		defaultValue: 0,
 	},
 	birthdate: {
 		type: 'calendar-input',
+		grid: 'md:col-span-6 lg:col-span-4 col-span-6',
 		label: 'Birthdate',
 		attributes: {},
+	},
+	new_member: {
+		type: 'switch',
+		grid: 'md:col-span-6 lg:col-span-4 col-span-6',
+		label: 'New Member',
+		attributes: {
+			size: 'lg',
+			defaultValue: false,
+		},
 	},
 	pin_number: {
 		type: 'pin',
 		label: 'Pin Number',
+		description: 'This is your PIN Number input',
+		grid: 'col-span-6',
 		nullInUndefined: true,
 		attributes: {
 			length: 6,
+		},
+	},
+	balance: {
+		type: 'input-number',
+		label: 'Balance',
+		description: 'This is your current balance',
+		grid: 'col-span-6',
+		attributes: {
+			placeholder: 'Enter your balance',
+			orientation: 'vertical',
+			class: 'w-full',
+		},
+		nullInUndefined: true,
+		validations: {
+			rules: 'required|min:3|numeric',
+			messages: {
+				required: 'This field is required.',
+				min: 'Minimum 2 is required.',
+			},
+		},
+	},
+	score: {
+		type: 'slider',
+		label: 'Score',
+		attributes: {
+			min: 10,
+			max: 100,
+			tooltip: true,
+			defaultValue: 50,
 		},
 	},
 })
@@ -148,18 +184,15 @@ function getValues() {
 
 	for (const key in fields) {
 		const field = fields[key]
-		const inputValue = field?.value ?? field?.defaultValue
 
-		data[key] = inputValue !== undefined ? inputValue : field?.nullInUndefined ? null : inputValue
+		data[key] = field?.value !== undefined ? field?.value : field?.nullInUndefined ? null : field?.value
 	}
 
-	console.log(data)
+	return data
 }
 
 const values: Record<string, any> = {
-	first_name: 'Merry Grace',
-	middle_name: 'Patricio',
-	last_name: 'Managuit',
+	full_name: 'Merry Grace Patricio Managuit',
 	gender: 'Female',
 	status: 3,
 	users: [
@@ -190,6 +223,9 @@ const values: Record<string, any> = {
 	],
 	description: 'This is Merry Grace Managuit details',
 	pin_number: [1, 0, 2, 9, 2, 2],
+	balance: 255123000,
+	new_member: true,
+	score: 69,
 }
 
 function setValues() {
@@ -213,9 +249,53 @@ function setValues() {
 
 				default:
 					currentField.value = values[key]
+
 					break
 			}
 		}
+	}
+}
+
+const validations = computed((): { rules: Record<string, string>; messages: Record<string, { [key: string]: string }> } => {
+	const rules: Record<string, string> = {}
+	const messages: Record<string, { [key: string]: string }> = {}
+
+	for (const key in fields) {
+		const field = fields[key]
+
+		if (field?.validations) {
+			rules[key] = field.validations.rules
+
+			messages[key] = field.validations.messages
+		}
+	}
+
+	return { rules, messages }
+})
+
+async function validateValues() {
+	resetErrors()
+
+	const result = await validate(getValues(), validations.value.rules)
+
+	if (result.isInvalid) {
+		for (const key in result.errors) {
+			result.errors[key]?.map((error) => {
+				const ruleMessage = validations.value.messages[key]?.[error.rule]
+
+				if (fields[key]?.attributes) fields[key].errors = ruleMessage
+			})
+		}
+
+		return
+	}
+
+	console.log(getValues())
+}
+
+function resetErrors() {
+	for (const key in fields) {
+		if (fields[key]?.errors) fields[key].errors = ''
 	}
 }
 </script>
