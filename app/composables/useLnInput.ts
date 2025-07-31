@@ -1,7 +1,17 @@
-import { validate } from 'robust-validator'
+import { validate, setLocales, en } from 'robust-validator'
+
+setLocales(en)
 
 export default function (input: LnInput) {
-	const getValue = () => (input?.value !== undefined ? input?.value : input?.nullInUndefined ? null : input?.value)
+	const getValue = () => {
+		return input?.value
+			? input.value
+			: input?.nullInUndefined
+			? null
+			: 'defaultValue' in input.attributes
+			? input.attributes.defaultValue
+			: undefined
+	}
 
 	const setValue = (value: unknown | any) => {
 		switch (input.type) {
@@ -9,7 +19,7 @@ export default function (input: LnInput) {
 				if (input.dropdown.type === 'object') {
 					const valueKey = input.dropdown.valueKey
 
-					input.value = input.attributes?.multiple ? value.map((item: any) => item[valueKey]) : value
+					input.value = input.attributes?.multiple ? value.map((item: any) => (typeof item === 'object' ? item[valueKey] : item)) : value
 				} else {
 					input.value = value
 				}

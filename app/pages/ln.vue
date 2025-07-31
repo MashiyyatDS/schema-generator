@@ -12,26 +12,22 @@
 </template>
 
 <script setup lang="ts">
-import { setLocales, en } from 'robust-validator'
-
-setLocales(en)
-
 const fields = reactive<{ [key: string]: LnInput }>({
 	full_name: {
 		type: 'input',
-		grid: 'md:col-span-4 lg:col-span-4 col-span-12',
 		label: 'First Name',
 		nullInUndefined: true,
 		validateOnChange: true,
+		grid: 'md:col-span-4 lg:col-span-4 col-span-12',
 		attributes: {
 			placeholder: 'This is a sample input',
 			class: 'w-full',
 		},
 		validations: {
-			rules: 'required|min:2',
+			rules: 'required|min:10',
 			messages: {
 				required: 'This field is required',
-				min: 'Minimum 5 character is required',
+				min: 'Minimum 10 character is required',
 			},
 		},
 	},
@@ -250,6 +246,7 @@ const values: Record<string, any> = {
 	balance: 255123000,
 	new_member: true,
 	score: 69,
+	theme: 'Light',
 }
 
 function setValues() {
@@ -257,23 +254,6 @@ function setValues() {
 		useLnInput(field).setValue(values[key])
 	}
 }
-
-//const validations = computed((): { rules: Record<string, string>; messages: Record<string, { [key: string]: string }> } => {
-//	const rules: Record<string, string> = {}
-//	const messages: Record<string, { [key: string]: string }> = {}
-
-//	for (const key in fields) {
-//		const field = fields[key]
-
-//		if (field?.validations) {
-//			rules[key] = field.validations.rules
-
-//			messages[key] = field.validations.messages
-//		}
-//	}
-
-//	return { rules, messages }
-//})
 
 async function validateValues() {
 	resetErrors()
