@@ -1,3 +1,5 @@
+import { validate } from 'robust-validator'
+
 export default function (input: LnInput) {
 	const getValue = () => (input?.value !== undefined ? input?.value : input?.nullInUndefined ? null : input?.value)
 
@@ -14,6 +16,9 @@ export default function (input: LnInput) {
 
 				break
 
+			case 'calendar-input':
+				break
+
 			default:
 				input.value = value
 
@@ -21,11 +26,28 @@ export default function (input: LnInput) {
 		}
 	}
 
-	const validate = () => {}
+	const resetValue = () => {
+		const undefinedNull = input?.nullInUndefined ? null : undefined
+
+		input.value = 'defaultValue' in input.attributes ? input.attributes.defaultValue : undefinedNull
+
+		input.errors = ''
+	}
+
+	const validateValue = async (fieldName: string) => {
+		if (!input.validations) return { isValid: true }
+
+		const result = await validate({ [fieldName]: input.value }, { [fieldName]: input.validations?.rules })
+
+		input.errors = result.isInvalid ? result.errors[fieldName]?.map((error) => input.validations?.messages[error.rule]).join(', ') : ''
+
+		return result
+	}
 
 	return {
 		getValue,
 		setValue,
-		validate,
+		resetValue,
+		validateValue,
 	}
 }

@@ -3,16 +3,16 @@
 		<LnInput v-for="(field, key) in fields" :key="key" :model-value="field" />
 
 		<div class="col-span-12 flex gap-1">
-			<UButton label="Get Values" block @click="getValues()" />
-			<UButton label="Set Values" block @click="setValues" />
+			<UButton label="Get Values" block @click="getValues" />
 			<UButton label="Validate" block @click="validateValues" />
+			<UButton label="Set Values" block @click="setValues" />
+			<UButton label="Reset" block @click="resetValues" />
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import type { LnInput } from '~/types/laranuxt/LnInput'
-import { validate, setLocales, en } from 'robust-validator'
+import { setLocales, en } from 'robust-validator'
 
 setLocales(en)
 
@@ -30,8 +30,8 @@ const fields = reactive<{ [key: string]: LnInput }>({
 		validations: {
 			rules: 'required|min:2',
 			messages: {
-				required: 'This field is required.',
-				min: 'Minimum 5 character is required.',
+				required: 'This field is required',
+				min: 'Minimum 5 character is required',
 			},
 		},
 	},
@@ -40,12 +40,13 @@ const fields = reactive<{ [key: string]: LnInput }>({
 		grid: 'md:col-span-4 lg:col-span-4 col-span-12',
 		label: 'Description',
 		description: 'This is a sample description',
+		validateOnChange: true,
 		attributes: {
 			placeholder: 'This is a sample input',
 			class: 'w-full',
 		},
 		validations: {
-			rules: 'required|min:2',
+			rules: 'required|min:5',
 			messages: {
 				required: 'This field is required.',
 				min: 'Minimum 5 character is required.',
@@ -55,7 +56,7 @@ const fields = reactive<{ [key: string]: LnInput }>({
 	gender: {
 		type: 'select',
 		label: 'Select gender',
-		grid: 'md:col-span-6 lg:col-span-4 col-span-12',
+		grid: 'col-span-4',
 		attributes: {
 			placeholder: 'This is a sample input',
 			class: 'w-full',
@@ -69,13 +70,12 @@ const fields = reactive<{ [key: string]: LnInput }>({
 	users: {
 		type: 'select',
 		label: 'Select User',
-		description: 'This is a sample description',
-		grid: 'md:col-span-6 lg:col-span-4 col-span-6',
+		grid: 'md:col-span-6 lg:col-span-4 col-span-4',
+		nullInUndefined: true,
 		attributes: {
 			placeholder: 'This is a sample input',
 			class: 'w-full',
 			multiple: true,
-			defaultValue: 'Male',
 		},
 		dropdown: {
 			type: 'object',
@@ -86,12 +86,17 @@ const fields = reactive<{ [key: string]: LnInput }>({
 			protocol: 'rest',
 			endpoint: 'https://retoolapi.dev/yGHdpo/data',
 		},
+		validations: {
+			rules: 'required',
+			messages: {
+				required: 'Please select a user',
+			},
+		},
 	},
 	status: {
 		type: 'select',
 		label: 'Select Status',
-		description: 'This is a sample description',
-		grid: 'md:col-span-6 lg:col-span-4 col-span-6',
+		grid: 'md:col-span-6 lg:col-span-4 col-span-4',
 		attributes: {
 			placeholder: 'This is a sample input',
 			selectedIcon: 'material-symbols:check-box',
@@ -146,6 +151,7 @@ const fields = reactive<{ [key: string]: LnInput }>({
 		nullInUndefined: true,
 		attributes: {
 			length: 6,
+			otp: true,
 		},
 	},
 	balance: {
@@ -174,7 +180,27 @@ const fields = reactive<{ [key: string]: LnInput }>({
 			min: 10,
 			max: 100,
 			tooltip: true,
-			defaultValue: 50,
+		},
+	},
+	theme: {
+		type: 'radio-group',
+		label: 'Select Theme',
+		grid: 'md:col-span-6 lg:col-span-4 col-span-4 p-3',
+		nullInUndefined: true,
+		attributes: {
+			placeholder: 'This is a sample input',
+			class: 'w-full',
+			multiple: true,
+		},
+		dropdown: {
+			type: 'default',
+			items: ['Dark', 'Light', 'System Default'],
+		},
+		validations: {
+			rules: 'required',
+			messages: {
+				required: 'Please select a user',
+			},
 		},
 	},
 })
@@ -186,7 +212,7 @@ function getValues() {
 		data[key] = useLnInput(field).getValue()
 	}
 
-	return data
+	console.log(data)
 }
 
 const values: Record<string, any> = {
@@ -232,46 +258,38 @@ function setValues() {
 	}
 }
 
-const validations = computed((): { rules: Record<string, string>; messages: Record<string, { [key: string]: string }> } => {
-	const rules: Record<string, string> = {}
-	const messages: Record<string, { [key: string]: string }> = {}
+//const validations = computed((): { rules: Record<string, string>; messages: Record<string, { [key: string]: string }> } => {
+//	const rules: Record<string, string> = {}
+//	const messages: Record<string, { [key: string]: string }> = {}
 
-	for (const key in fields) {
-		const field = fields[key]
+//	for (const key in fields) {
+//		const field = fields[key]
 
-		if (field?.validations) {
-			rules[key] = field.validations.rules
+//		if (field?.validations) {
+//			rules[key] = field.validations.rules
 
-			messages[key] = field.validations.messages
-		}
-	}
+//			messages[key] = field.validations.messages
+//		}
+//	}
 
-	return { rules, messages }
-})
+//	return { rules, messages }
+//})
 
 async function validateValues() {
 	resetErrors()
 
-	const result = await validate(getValues(), validations.value.rules)
-
-	if (result.isInvalid) {
-		for (const key in result.errors) {
-			result.errors[key]?.map((error) => {
-				const ruleMessage = validations.value.messages[key]?.[error.rule]
-
-				if (fields[key]?.attributes) fields[key].errors = ruleMessage
-			})
-		}
-
-		return
+	for (const [key, field] of Object.entries(fields)) {
+		await useLnInput(field).validateValue(key)
 	}
-
-	console.log(getValues())
 }
 
 function resetErrors() {
 	for (const key in fields) {
 		if (fields[key]?.errors) fields[key].errors = ''
 	}
+}
+
+function resetValues() {
+	Object.values(fields).map((field) => useLnInput(field).resetValue())
 }
 </script>

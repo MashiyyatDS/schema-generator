@@ -1,11 +1,13 @@
-import type { InputProps } from '@nuxt/ui/components/Input.vue'
-import type { SelectProps } from '@nuxt/ui/components/Select.vue'
+import type { InputNumberProps } from '@nuxt/ui/components/InputNumber.vue'
+import type { RadioGroupProps } from '@nuxt/ui/components/RadioGroup.vue'
+import type { InputMenuProps } from '@nuxt/ui/components/InputMenu.vue'
 import type { TextareaProps } from '@nuxt/ui/components/Textarea.vue'
 import type { CalendarProps } from '@nuxt/ui/components/Calendar.vue'
 import type { PinInputProps } from '@nuxt/ui/components/PinInput.vue'
-import type { InputNumberProps } from '@nuxt/ui/components/InputNumber.vue'
+import type { SelectProps } from '@nuxt/ui/components/Select.vue'
 import type { SwitchProps } from '@nuxt/ui/components/Switch.vue'
 import type { SliderProps } from '@nuxt/ui/components/Slider.vue'
+import type { InputProps } from '@nuxt/ui/components/Input.vue'
 
 export interface LnInputBaseInterface {
 	type:
@@ -136,4 +138,26 @@ export interface LnInputSlider extends LnInputBaseInterface {
 	attributes: SliderProps | Record<string, unknown>
 }
 
-export type LnInput = LnInputDefault | LnInputSelect | LnInputTextarea | LnInputCalendar | LnInputPin | LnInputNumber | LnInputSwitch | LnInputSlider
+export interface LnInputMenu extends LnInputBaseInterface {
+	type: 'input-menu'
+	attributes: InputMenuProps | Record<string, unknown>
+}
+
+export interface LnInputRadioGroup<M = string> extends LnInputBaseInterface {
+	type: 'radio-group'
+	attributes: RadioGroupProps | Record<string, unknown>
+	server?: ServerMethod
+	dropdown: (ObjectDropdown<M> & { descriptionKey?: string }) | StringDropdown
+}
+
+export type LnInput =
+	| LnInputDefault
+	| LnInputSelect
+	| LnInputTextarea
+	| LnInputCalendar
+	| LnInputPin
+	| LnInputNumber
+	| LnInputSwitch
+	| LnInputSlider
+	| LnInputMenu
+	| LnInputRadioGroup

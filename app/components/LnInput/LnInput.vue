@@ -1,21 +1,23 @@
 <template>
 	<div v-if="!lnInput.hidden" :class="[lnInput.grid ?? 'col-span-12']">
 		<UFormField :label="lnInput.label" :description="lnInput.description" :error="lnInput.errors" :hint="lnInput.hint" :help="lnInput.help">
-			<LnInputDefault v-if="lnInput.type === 'input'" :model-value="lnInput" />
+			<UInput v-if="lnInput.type === 'input'" v-bind="lnInput.attributes" v-model="lnInput.value" @update:model-value="onValueUpdated" />
 
 			<LnInputSelect v-if="lnInput.type === 'select'" :model-value="lnInput" />
 
-			<LnInputTextArea v-if="lnInput.type === 'textarea'" :model-value="lnInput" />
+			<UTextarea v-if="lnInput.type === 'textarea'" v-bind="lnInput.attributes" v-model="lnInput.value" @update:model-value="onValueUpdated" />
 
 			<LnInputCalendar v-if="lnInput.type === 'calendar-input'" :model-value="lnInput" />
 
-			<LnInputPin v-if="lnInput.type === 'pin'" :model-value="lnInput" />
+			<UPinInput v-if="lnInput.type === 'pin'" v-model="lnInput.value" v-bind="lnInput.attributes" />
 
-			<LnInputNumber v-if="lnInput.type === 'input-number'" :model-value="lnInput" />
+			<UInputNumber v-if="lnInput.type === 'input-number'" v-model="lnInput.value" v-bind="lnInput.attributes" />
 
-			<LnInputSwitch v-if="lnInput.type === 'switch'" :model-value="lnInput" />
+			<USwitch v-if="lnInput.type === 'switch'" v-model="lnInput.value" v-bind="lnInput.attributes" />
 
-			<LnInputSlider v-if="lnInput.type === 'slider'" :model-value="lnInput" />
+			<USlider v-if="lnInput.type === 'slider'" v-model="lnInput.value" v-bind="lnInput.attributes" />
+
+			<LnInputRadioGroup v-if="lnInput.type === 'radio-group'" :model-value="lnInput" />
 		</UFormField>
 	</div>
 </template>
@@ -24,4 +26,8 @@
 import type { LnInput } from '~/types/laranuxt/LnInput'
 
 const lnInput = defineModel<LnInput>({ required: true })
+
+function onValueUpdated() {
+	if (lnInput.value.validateOnChange) useLnInput(lnInput.value).validateValue('field')
+}
 </script>
