@@ -1,22 +1,21 @@
 <template>
 	<LnForm :model-value="form" />
 
-	<UButton label="Get form value" @click="getFormValue" />
+	<div class="flex gap-1">
+		<UButton class="cursor-pointer" label="Get form value" @click="getFormValue" />
 
-	<UButton label="Set form value" @click="useLnForm.setFormData(form, serverData)" />
+		<UButton class="cursor-pointer" label="Set form value" @click="useLnForm.setFormData(form, serverData)" />
+
+		<UButton class="cursor-pointer" label="Validate" @click="useLnForm.validate(form)" />
+
+		<UButton class="cursor-pointer" label="Reset" @click="useLnForm.reset(form)" />
+	</div>
 </template>
 
 <script setup lang="ts">
 const form = reactive<LnForm>({
 	title: 'User Form',
 	description: 'This is a sample form for users',
-	attributes: {
-		ui: {
-			header: 'p-2',
-			footer: 'p-2',
-			body: 'p-2',
-		},
-	},
 	fields: {
 		first_name: {
 			type: 'input',
@@ -172,13 +171,6 @@ const form = reactive<LnForm>({
 		address: {
 			title: 'Address',
 			description: 'This is a sample form for users',
-			attributes: {
-				ui: {
-					header: 'p-2',
-					footer: 'p-2',
-					body: 'p-2',
-				},
-			},
 			fields: {
 				city: {
 					type: 'input',
@@ -241,13 +233,6 @@ const form = reactive<LnForm>({
 		referrer: {
 			title: 'Referrer',
 			description: 'This is a sample form for users',
-			attributes: {
-				ui: {
-					header: 'p-2',
-					footer: 'p-2',
-					body: 'p-2',
-				},
-			},
 			fields: {
 				full_name: {
 					type: 'input',
@@ -313,6 +298,6 @@ const serverData = reactive({
 function getFormValue() {
 	const formData = useLnForm.getValue(form)
 
-	console.log(formData)
+	console.log(formData, 'Working...')
 }
 </script>

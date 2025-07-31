@@ -1,12 +1,7 @@
-import type { ModalProps } from '@nuxt/ui/components/Modal.vue'
-
-export interface LnForm {
+export type LnForm = {
 	title?: string
 	description?: string
-	fields: { [key: string]: LnInput }
+	fields: Record<string, LnInput>
 	uploader?: boolean
-	attributes: ModalProps | Record<string, any>
-	forms?: {
-		[key: string]: LnForm
-	}
+	forms?: Record<string, LnForm>
 }
