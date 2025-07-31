@@ -8,4 +8,10 @@ export default defineNuxtConfig({
 		dirs: ['./types/*/*.ts', './composables/*/*.ts'],
 	},
 	ssr: false,
+	plugins: [
+		{
+			name: 'robust-validator',
+			src: '~/plugins/robust-validator',
+		},
+	],
 })

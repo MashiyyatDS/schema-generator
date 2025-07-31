@@ -1,40 +1,13 @@
 <template>
-	<div class="p-1">
-		<LnForm v-model="userForm" />
+	<LnForm :model-value="form" />
 
-		<div class="flex gap-1">
-			<UButton label="Validate" @click="useLnForm.validate(userForm)" />
+	<UButton label="Get form value" @click="getFormValue" />
 
-			<UButton label="Reset" @click="useLnForm.reset(userForm)" />
-
-			<UButton label="Get Values" @click="getData" />
-
-			<UButton label="Set Values" @click="useLnForm.setValue(userForm, serverData)" />
-		</div>
-	</div>
+	<UButton label="Set form value" @click="useLnForm.setFormData(form, serverData)" />
 </template>
 
 <script setup lang="ts">
-const serverData = reactive({
-	first_name: 'Grace',
-	middle_name: 'Macey Duffy',
-	last_name: 'Washington',
-	email: 'mesemenu@mailinator.com',
-	users: [2, 4, 6, 8],
-	address: {
-		city: 'Quidem doloribus vol',
-		municipality: 'Omnis dolorem nemo d',
-		complete_address: 'Ducimus recusandae',
-	},
-	referrer: {
-		full_name: 'Darrel Castillo',
-		email: 'byheba@mailinator.com',
-	},
-	gender: 'Female',
-	status: 2,
-})
-
-const userForm = reactive<LnForm>({
+const form = reactive<LnForm>({
 	title: 'User Form',
 	description: 'This is a sample form for users',
 	attributes: {
@@ -318,8 +291,27 @@ const userForm = reactive<LnForm>({
 	},
 })
 
-function getData() {
-	const formData = useLnForm.getValue(toRaw(userForm))
+const serverData = reactive({
+	first_name: 'Grace',
+	middle_name: 'Macey Duffy',
+	last_name: 'Washington',
+	email: 'mesemenu@mailinator.com',
+	users: [2, 4, 6, 8],
+	address: {
+		city: 'Quidem doloribus vol',
+		municipality: 'Omnis dolorem nemo d',
+		complete_address: 'Ducimus recusandae',
+	},
+	referrer: {
+		full_name: 'Darrel Castillo',
+		email: 'byheba@mailinator.com',
+	},
+	gender: 'Female',
+	status: 2,
+})
+
+function getFormValue() {
+	const formData = useLnForm.getValue(form)
 
 	console.log(formData)
 }

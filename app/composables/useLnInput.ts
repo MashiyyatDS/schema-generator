@@ -1,6 +1,4 @@
-import { validate, setLocales, en } from 'robust-validator'
-
-setLocales(en)
+import { validate } from 'robust-validator'
 
 export default function (input: LnInput) {
 	const getValue = () => {

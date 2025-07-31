@@ -17,7 +17,5 @@
 </template>
 
 <script setup lang="ts">
-import type { LnForm } from '~/types/laranuxt/LnForm'
-
 const form = defineModel<LnForm>({ required: true })
 </script>
