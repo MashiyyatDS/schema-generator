@@ -4,7 +4,6 @@ export type LnForm = {
 	title?: string
 	description?: string
 	fields: Record<string, LnInput>
-	uploader?: boolean
 	forms?: Record<string, LnForm>
 	ui?: {
 		body?: string
@@ -18,4 +17,10 @@ export type LnForm = {
 export type LnModal = {
 	attributes?: ModalProps
 	form?: LnForm
+	uploader?: boolean
+	confirmation?: {
+		title: string
+		description?: string
+		icon?: string
+	}
 }

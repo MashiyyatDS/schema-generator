@@ -1,17 +1,17 @@
 <template>
 	<div class="p-1">
-		<LnForm v-model="form" />
-
 		<div class="flex gap-1">
-			<UButton label="Validate" @click="useLnForm.validate(form)" />
+			<UButtonGroup>
+				<UButton class="cursor-pointer" label="Validate" @click="useLnForm.validate(form)" />
 
-			<UButton label="Reset" @click="useLnForm.reset(form)" />
+				<UButton class="cursor-pointer" label="Reset" @click="useLnForm.reset(form)" />
 
-			<UButton label="Get Values" @click="getData" />
+				<UButton class="cursor-pointer" label="Get Values" @click="getData" />
 
-			<UButton label="Set Values" @click="useLnForm.setFormData(form, payload)" />
+				<UButton class="cursor-pointer" label="Set Values" @click="useLnForm.setFormData(form, payload)" />
 
-			<UButton label="Open Modal" @click="openModal" />
+				<UButton class="cursor-pointer" label="Open Modal" @click="openModal" />
+			</UButtonGroup>
 		</div>
 	</div>
 </template>
@@ -323,19 +323,29 @@ function getData() {
 }
 
 function openModal() {
-	useLnModal({
-		form,
-		attributes: {
-			title: 'Sample Form',
-			description: 'This is a sample form inside a modal component.',
-			close: false,
-			ui: {
-				footer: 'sm:p-2 p-2',
-				body: 'sm:p-2 p-2',
-				header: 'sm:p-2 p-2',
+	useLnModal(
+		{
+			form,
+			uploader: true,
+			attributes: {
+				title: 'LaraNuxt Dynamic Modal',
+				description: 'This is a sample form inside a modal component.',
+				close: true,
+				dismissible: false,
+				ui: {
+					footer: 'sm:p-2 p-2',
+					body: 'sm:p-2 p-2',
+					header: 'sm:p-2 p-2',
+				},
+			},
+			confirmation: {
+				title: 'Confirmation',
+				description: 'Data confirmation',
+				icon: 'line-md:confirm',
 			},
 		},
-	})
+		payload
+	)
 }
 
 definePageMeta({
