@@ -1,10 +1,10 @@
 import type { LnModal as LnModalParams } from '#imports'
 import { LnModal } from '#components'
 
-export default function (modalParams: LnModalParams, payload?: Record<string, any>) {
+export default function (modelValue: LnModalParams, payload?: Record<string, any>, callback?: (response?: any) => any) {
 	const modal = useOverlay().create(LnModal)
 
-	if (modalParams?.form && payload) useLnForm.setFormData(modalParams.form, payload)
+	if (modelValue?.form && payload) useLnForm.setFormData(modelValue.form, payload)
 
-	modal.open({ modelValue: modalParams })
+	modal.open({ modelValue, callback })
 }

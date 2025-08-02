@@ -3,7 +3,7 @@
 		<template #body>
 			<UStepper ref="stepper" :items="items" size="xs" class="w-full" disabled>
 				<template #content="{ item }">
-					<LnForm v-if="modal?.form && item.title === 'Form'" v-model="modal.form" />
+					<LnForm v-if="modal?.form && item.title === modal?.form.title" v-model="modal.form" />
 
 					<div v-if="item?.title === 'Uploader'" class="grid grid-cols-12 gap-2 mt-1">
 						<div class="col-span-12">
@@ -40,25 +40,25 @@
 <script setup lang="ts">
 import type { StepperItem } from '@nuxt/ui'
 
+const props = withDefaults(defineProps<{ callback?: (response: any) => void }>(), {})
 const modal = defineModel<LnModal>({ required: true })
 const emit = defineEmits<{ close: [boolean] }>()
 const stepper = useTemplateRef('stepper')
 
+const uploads = ref([])
+
 const items = computed((): StepperItem[] => [
-	...(modal.value?.form ? [{ title: 'Form', description: 'Details and information', icon: 'material-symbols:add-notes' }] : []),
+	...(modal.value?.form ? [{ title: modal.value.form.title, description: modal.value.form.description, icon: 'material-symbols:add-notes' }] : []),
 	...(modal.value?.uploader ? [{ title: 'Uploader', description: 'File attachments', icon: 'material-symbols:upload-file-rounded' }] : []),
 	...(modal.value?.confirmation ? [modal.value.confirmation] : []),
 ])
 
-const uploads = ref([])
-
 async function validateForm() {
-	if (modal.value?.form) {
-		const validated = await useLnForm.validate(modal.value.form)
-
-		if (validated) {
-			console.log(useLnForm.getValue(modal.value.form))
-		}
+	if (props.callback) {
+		props.callback({
+			uploads: uploads.value,
+			...(modal.value?.form ? useLnForm.getValue(modal.value.form) : {}),
+		})
 	}
 }
 </script>

@@ -344,7 +344,10 @@ function openModal() {
 				icon: 'line-md:confirm',
 			},
 		},
-		payload
+		payload,
+		(response: any) => {
+			console.log(response)
+		}
 	)
 }
 
