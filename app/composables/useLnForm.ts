@@ -26,6 +26,8 @@ class UseLnForm {
 				if (payload[key]) this.setFormData(fForm, payload[key])
 			})
 		}
+
+		this.validate(lnForm)
 	}
 
 	reset(lnForm: LnForm) {

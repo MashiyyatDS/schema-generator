@@ -8,7 +8,7 @@
 			<div class="flex gap-2">
 				<UButton color="neutral" label="Dismiss" @click="emit('close', false)" />
 
-				<UButton label="Success" @click="emit('close', true)" />
+				<UButton label="Success" @click="validateForm" />
 			</div>
 		</template>
 	</UModal>
@@ -18,4 +18,14 @@
 const modal = defineModel<LnModal>({ required: true })
 
 const emit = defineEmits<{ close: [boolean] }>()
+
+async function validateForm() {
+	if (modal.value?.form) {
+		const validated = await useLnForm.validate(modal.value.form)
+
+		if (validated) {
+			console.log(useLnForm.getValue(modal.value.form))
+		}
+	}
+}
 </script>

@@ -9,7 +9,7 @@
 
 			<UButton label="Get Values" @click="getData" />
 
-			<UButton label="Set Values" @click="useLnForm.setFormData(form, serverData)" />
+			<UButton label="Set Values" @click="useLnForm.setFormData(form, payload)" />
 
 			<UButton label="Open Modal" @click="openModal" />
 		</div>
@@ -17,22 +17,22 @@
 </template>
 
 <script setup lang="ts">
-const serverData = reactive({
-	first_name: 'Merry Grace',
-	middle_name: 'Patricio',
-	last_name: 'Managuit',
-	email: 'mesemenu@mailinator.com',
-	gender: 'Female',
-	users: [2, 4, 6, 8],
-	status: 2,
+const payload = reactive({
+	first_name: 'Mashiyyat',
+	middle_name: 'Villasenor',
+	last_name: 'Delos Santos',
+	email: 'delossantos.mash@gmail.com',
+	gender: 'Male',
+	status: 1,
+	users: [2, 3, 4, 1],
 	address: {
-		city: 'Quidem doloribus vol',
-		municipality: 'Omnis dolorem nemo d',
-		complete_address: 'Ducimus recusandae',
+		city: 'San Jose del Monte',
+		municipality: 'Bulacan',
+		complete_address: 'Rd.1 Brgy Minuyan 3 Blk 39 Lot 33',
 	},
 	referrer: {
-		full_name: 'Darrel Castillo',
-		email: 'byheba@mailinator.com',
+		full_name: 'Merry Grace Managuit',
+		email: 'merrygrace27@gmail.com',
 	},
 })
 
@@ -117,7 +117,7 @@ const form = reactive<LnForm>({
 		gender: {
 			type: 'select',
 			label: 'Select gender',
-			grid: 'col-span-4',
+			grid: 'col-span-6',
 			attributes: {
 				placeholder: 'This is a sample input',
 				class: 'w-full',
@@ -128,36 +128,10 @@ const form = reactive<LnForm>({
 				items: ['Male', 'Female'],
 			},
 		},
-		users: {
-			type: 'select',
-			label: 'Select User',
-			grid: 'md:col-span-6 lg:col-span-4 col-span-4',
-			nullInUndefined: true,
-			attributes: {
-				placeholder: 'This is a sample input',
-				class: 'w-full',
-				multiple: true,
-			},
-			dropdown: {
-				type: 'object',
-				labelKey: 'name',
-				valueKey: 'id',
-			},
-			server: {
-				protocol: 'rest',
-				endpoint: 'https://retoolapi.dev/yGHdpo/data',
-			},
-			validations: {
-				rules: 'required',
-				messages: {
-					required: 'Please select a user',
-				},
-			},
-		},
 		status: {
 			type: 'select',
 			label: 'Select Status',
-			grid: 'md:col-span-6 lg:col-span-4 col-span-4',
+			grid: 'md:col-span-6 lg:col-span-4 col-span-6',
 			attributes: {
 				placeholder: 'This is a sample input',
 				selectedIcon: 'material-symbols:check-box',
@@ -187,6 +161,32 @@ const form = reactive<LnForm>({
 						value: 3,
 					},
 				],
+			},
+		},
+		users: {
+			type: 'select',
+			label: 'Select User',
+			grid: 'md:col-span-6 lg:col-span-4 col-span-12',
+			nullInUndefined: true,
+			attributes: {
+				placeholder: 'This is a sample input',
+				class: 'w-full',
+				multiple: true,
+			},
+			dropdown: {
+				type: 'object',
+				labelKey: 'name',
+				valueKey: 'id',
+			},
+			server: {
+				protocol: 'rest',
+				endpoint: 'https://retoolapi.dev/yGHdpo/data',
+			},
+			validations: {
+				rules: 'required',
+				messages: {
+					required: 'Please select a user',
+				},
 			},
 		},
 	},
