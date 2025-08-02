@@ -1,4 +1,6 @@
 <template>
+	<pre>{{ useRuntimeConfig().public.appUrl }}</pre>
+
 	<div class="flex flex-col justify-center m-5">
 		<h1 class="self-center text-[20px] mb-10 font-bold">Dynamic Model Schema Generator</h1>
 

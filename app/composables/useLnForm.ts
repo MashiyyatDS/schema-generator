@@ -36,22 +36,25 @@ class UseLnForm {
 		}
 	}
 
-	async validate(lnForm: LnForm) {
-		const fields: LnInput[] = []
+	async validate(lnForm: LnForm): Promise<boolean> {
+		const collectFields = (form: LnForm): LnInput[] => {
+			let fields: LnInput[] = Object.values(form.fields)
 
-		Object.values(lnForm.fields).map((field) => fields.push(field))
+			if (form.forms) {
+				for (const nestedForm of Object.values(form.forms)) {
+					fields = fields.concat(collectFields(nestedForm))
+				}
+			}
 
-		if (lnForm?.forms) {
-			Object.values(lnForm.forms).map((form) => {
-				Object.values(form.fields).map(async (field) => fields.push(field))
-			})
+			return fields
 		}
 
-		const results = await Promise.all(
-			fields.map(async (field) => {
-				const fieldValidation = await useLnInput(field).validateValue('field')
+		const allFields = collectFields(lnForm)
 
-				return fieldValidation
+		const results = await Promise.all(
+			allFields.map(async (field) => {
+				const { isValid } = await useLnInput(field).validateValue('field')
+				return { field, isValid }
 			})
 		)
 

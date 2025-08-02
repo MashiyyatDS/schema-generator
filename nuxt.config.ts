@@ -1,4 +1,8 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import { config } from 'dotenv'
+
+const environment = 'production'
+config({ path: `.env.${environment}`, override: true })
+
 export default defineNuxtConfig({
 	compatibilityDate: '2025-07-15',
 	devtools: { enabled: false },
@@ -14,4 +18,10 @@ export default defineNuxtConfig({
 			src: '~/plugins/robust-validator',
 		},
 	],
+	runtimeConfig: {
+		public: {
+			env: 'develop',
+			appUrl: process.env.APP_URL,
+		},
+	},
 })

@@ -1,26 +1,30 @@
 <template>
 	<div class="p-1">
-		<LnForm v-model="userForm" />
+		<LnForm v-model="form" />
 
 		<div class="flex gap-1">
-			<UButton label="Validate" @click="useLnForm.validate(userForm)" />
+			<UButton label="Validate" @click="useLnForm.validate(form)" />
 
-			<UButton label="Reset" @click="useLnForm.reset(userForm)" />
+			<UButton label="Reset" @click="useLnForm.reset(form)" />
 
 			<UButton label="Get Values" @click="getData" />
 
-			<UButton label="Set Values" @click="useLnForm.setValue(userForm, serverData)" />
+			<UButton label="Set Values" @click="useLnForm.setFormData(form, serverData)" />
+
+			<UButton label="Open Modal" @click="openModal" />
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
 const serverData = reactive({
-	first_name: 'Grace',
-	middle_name: 'Macey Duffy',
-	last_name: 'Washington',
+	first_name: 'Merry Grace',
+	middle_name: 'Patricio',
+	last_name: 'Managuit',
 	email: 'mesemenu@mailinator.com',
+	gender: 'Female',
 	users: [2, 4, 6, 8],
+	status: 2,
 	address: {
 		city: 'Quidem doloribus vol',
 		municipality: 'Omnis dolorem nemo d',
@@ -30,20 +34,11 @@ const serverData = reactive({
 		full_name: 'Darrel Castillo',
 		email: 'byheba@mailinator.com',
 	},
-	gender: 'Female',
-	status: 2,
 })
 
-const userForm = reactive<LnForm>({
+const form = reactive<LnForm>({
 	title: 'User Form',
 	description: 'This is a sample form for users',
-	attributes: {
-		ui: {
-			header: 'p-2',
-			footer: 'p-2',
-			body: 'p-2',
-		},
-	},
 	fields: {
 		first_name: {
 			type: 'input',
@@ -199,13 +194,6 @@ const userForm = reactive<LnForm>({
 		address: {
 			title: 'Address',
 			description: 'This is a sample form for users',
-			attributes: {
-				ui: {
-					header: 'p-2',
-					footer: 'p-2',
-					body: 'p-2',
-				},
-			},
 			fields: {
 				city: {
 					type: 'input',
@@ -264,17 +252,16 @@ const userForm = reactive<LnForm>({
 					},
 				},
 			},
+			variant: 'subtle',
+			ui: {
+				body: 'sm:p-2 p-2',
+				header: 'sm:p-2 p-2',
+				root: 'rounded-sm mt-1',
+			},
 		},
 		referrer: {
 			title: 'Referrer',
 			description: 'This is a sample form for users',
-			attributes: {
-				ui: {
-					header: 'p-2',
-					footer: 'p-2',
-					body: 'p-2',
-				},
-			},
 			fields: {
 				full_name: {
 					type: 'input',
@@ -314,13 +301,45 @@ const userForm = reactive<LnForm>({
 					},
 				},
 			},
+			ui: {
+				body: 'sm:p-2',
+				header: 'sm:p-2 p-2',
+				root: 'rounded-sm mt-1',
+			},
+			variant: 'subtle',
 		},
+	},
+	ui: {
+		body: 'sm:p-3 p-2',
+		header: 'p-2',
+		root: 'rounded-sm',
 	},
 })
 
 function getData() {
-	const formData = useLnForm.getValue(toRaw(userForm))
+	const formData = useLnForm.getValue(form)
 
 	console.log(formData)
 }
+
+function openModal() {
+	useLnModal({
+		form,
+		attributes: {
+			title: 'Sample Form',
+			description: 'This is a sample form inside a modal component.',
+			dismissible: false,
+			close: false,
+			ui: {
+				footer: 'sm:p-2 p-2 flex justify-end',
+				body: 'sm:p-2 p-2',
+				header: 'sm:p-2 p-2',
+			},
+		},
+	})
+}
+
+definePageMeta({
+	layout: 'default',
+})
 </script>
