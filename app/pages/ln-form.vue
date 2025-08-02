@@ -45,7 +45,7 @@ const form = reactive<LnForm>({
 			label: 'First Name',
 			nullInUndefined: true,
 			validateOnChange: true,
-			grid: 'md:col-span-4 lg:col-span-4 col-span-12',
+			grid: 'col-span-12',
 			attributes: {
 				placeholder: 'This is a sample input',
 				class: 'w-full',
@@ -63,7 +63,7 @@ const form = reactive<LnForm>({
 			label: 'Middle Name',
 			nullInUndefined: true,
 			validateOnChange: true,
-			grid: 'md:col-span-4 lg:col-span-4 col-span-12',
+			grid: 'col-span-12',
 			attributes: {
 				placeholder: 'This is a sample input',
 				class: 'w-full',
@@ -82,7 +82,7 @@ const form = reactive<LnForm>({
 			label: 'Last Name',
 			nullInUndefined: true,
 			validateOnChange: true,
-			grid: 'md:col-span-4 lg:col-span-4 col-span-12',
+			grid: 'col-span-12',
 			attributes: {
 				placeholder: 'This is a sample input',
 				class: 'w-full',
@@ -101,7 +101,7 @@ const form = reactive<LnForm>({
 			label: 'Email',
 			nullInUndefined: true,
 			validateOnChange: true,
-			grid: 'md:col-span-4 lg:col-span-4 col-span-12',
+			grid: 'lg:col-span-6 md:col-span-6 col-span-12',
 			attributes: {
 				placeholder: 'This is a sample input',
 				class: 'w-full',
@@ -117,7 +117,7 @@ const form = reactive<LnForm>({
 		gender: {
 			type: 'select',
 			label: 'Select gender',
-			grid: 'col-span-6',
+			grid: 'lg:col-span-6 md:col-span-6 col-span-12',
 			attributes: {
 				placeholder: 'This is a sample input',
 				class: 'w-full',
@@ -131,7 +131,7 @@ const form = reactive<LnForm>({
 		status: {
 			type: 'select',
 			label: 'Select Status',
-			grid: 'md:col-span-6 lg:col-span-4 col-span-6',
+			grid: 'lg:col-span-6 md:col-span-6 col-span-12',
 			attributes: {
 				placeholder: 'This is a sample input',
 				selectedIcon: 'material-symbols:check-box',
@@ -166,7 +166,7 @@ const form = reactive<LnForm>({
 		users: {
 			type: 'select',
 			label: 'Select User',
-			grid: 'md:col-span-6 lg:col-span-4 col-span-12',
+			grid: 'lg:col-span-6 md:col-span-6 col-span-12',
 			nullInUndefined: true,
 			attributes: {
 				placeholder: 'This is a sample input',
@@ -200,7 +200,7 @@ const form = reactive<LnForm>({
 					label: 'City',
 					nullInUndefined: true,
 					validateOnChange: true,
-					grid: 'md:col-span-4 lg:col-span-4 col-span-6',
+					grid: 'lg:col-span-6 md:col-span-6 col-span-12',
 					attributes: {
 						placeholder: 'This is a sample input',
 						class: 'w-full',
@@ -218,7 +218,7 @@ const form = reactive<LnForm>({
 					label: 'Municipality',
 					nullInUndefined: true,
 					validateOnChange: true,
-					grid: 'md:col-span-4 lg:col-span-4 col-span-6',
+					grid: 'lg:col-span-6 md:col-span-6 col-span-12',
 					attributes: {
 						placeholder: 'This is a sample input',
 						class: 'w-full',
@@ -237,7 +237,7 @@ const form = reactive<LnForm>({
 					label: 'Complete Address',
 					nullInUndefined: true,
 					validateOnChange: true,
-					grid: 'md:col-span-4 lg:col-span-4 col-span-12',
+					grid: 'col-span-12',
 					attributes: {
 						placeholder: 'This is a sample input',
 						class: 'w-full',
@@ -268,7 +268,7 @@ const form = reactive<LnForm>({
 					label: 'Full Name',
 					nullInUndefined: true,
 					validateOnChange: true,
-					grid: 'md:col-span-4 lg:col-span-4 col-span-7',
+					grid: 'lg:col-span-6 md:col-span-6 col-span-12',
 					attributes: {
 						placeholder: 'This is a sample input',
 						class: 'w-full',
@@ -286,7 +286,7 @@ const form = reactive<LnForm>({
 					label: 'Email',
 					nullInUndefined: true,
 					validateOnChange: true,
-					grid: 'md:col-span-4 lg:col-span-4 col-span-5',
+					grid: 'lg:col-span-6 md:col-span-6 col-span-12',
 					attributes: {
 						placeholder: 'This is a sample input',
 						class: 'w-full',
@@ -310,8 +310,8 @@ const form = reactive<LnForm>({
 		},
 	},
 	ui: {
-		body: 'sm:p-3 p-2',
-		header: 'p-2',
+		body: 'md:p-2 p-2',
+		header: 'md:p-2 p-2',
 		root: 'rounded-sm',
 	},
 })
@@ -328,10 +328,9 @@ function openModal() {
 		attributes: {
 			title: 'Sample Form',
 			description: 'This is a sample form inside a modal component.',
-			dismissible: false,
 			close: false,
 			ui: {
-				footer: 'sm:p-2 p-2 flex justify-end',
+				footer: 'sm:p-2 p-2',
 				body: 'sm:p-2 p-2',
 				header: 'sm:p-2 p-2',
 			},

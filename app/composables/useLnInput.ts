@@ -39,7 +39,7 @@ export default function (input: LnInput) {
 
 		input.value = 'defaultValue' in input.attributes ? input.attributes.defaultValue : undefinedNull
 
-		input.errors = ''
+		input.errors = undefined
 	}
 
 	const validateValue = async (fieldName: string) => {
@@ -47,7 +47,7 @@ export default function (input: LnInput) {
 
 		const result = await validate({ [fieldName]: input.value }, { [fieldName]: input.validations?.rules })
 
-		input.errors = result.isInvalid ? result.errors[fieldName]?.map((error) => input.validations?.messages[error.rule]).join(', ') : ''
+		input.errors = result.isInvalid ? result.errors[fieldName]?.map((error) => input.validations?.messages[error.rule]).join(', ') : undefined
 
 		return result
 	}
