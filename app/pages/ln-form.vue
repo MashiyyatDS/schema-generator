@@ -244,7 +244,6 @@ const form = reactive<LnForm>({
 					},
 				},
 			},
-			variant: 'subtle',
 			ui: {
 				body: 'sm:p-2 p-2',
 				header: 'sm:p-2 p-2',
@@ -298,7 +297,6 @@ const form = reactive<LnForm>({
 				header: 'sm:p-2 p-2',
 				root: 'rounded-sm mt-1',
 			},
-			variant: 'subtle',
 		},
 	},
 	ui: {
@@ -314,7 +312,6 @@ const preview = reactive<LnFormPreview>({
 	description: 'Info preview for confirmation',
 	attributes: {
 		class: 'rounded-sm',
-		variant: 'subtle',
 		ui: {
 			header: 'md:p-2 p-2',
 			body: 'md:p-0 p-2',
