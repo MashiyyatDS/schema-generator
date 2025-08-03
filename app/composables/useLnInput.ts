@@ -14,15 +14,7 @@ export default function (input: LnInput) {
 	const setValue = (value: unknown | any) => {
 		switch (input.type) {
 			case 'select':
-				if (input.dropdown.type === 'object') {
-					const valueKey = input.dropdown.valueKey
-
-					input.value = input.attributes?.multiple ? value.map((item: any) => (typeof item === 'object' ? item[valueKey] : item)) : value
-
-					input.dropdown.trueValue = value
-				} else {
-					input.value = value
-				}
+				setSelectInput(input, value)
 
 				break
 
@@ -33,6 +25,35 @@ export default function (input: LnInput) {
 				input.value = value
 
 				break
+		}
+	}
+
+	const setSelectInput = (select: LnInputSelect, value: unknown | any) => {
+		/**
+		 * value: {name: "OPEN", value: 1}
+		 * value: [{name: "OPEN", value: 1}, {name: "CLOSED", value: 2}]
+		 * value: 1
+		 * value: [1,2,3,4,5]
+		 */
+		if (select.dropdown.type === 'object') {
+			const valueKey = select.dropdown.valueKey
+
+			if (Array.isArray(value)) {
+				select.value = value.map((item) => (typeof item === 'object' ? item[valueKey] : item))
+
+				console.log(select.value)
+			} else {
+				select.value = typeof value === 'object' ? value[valueKey] : value
+			}
+			//if (Array.isArray(value)) {
+			//	select.dropdown.trueValue = value
+			//} else if (typeof value === 'object') {
+			//	select.dropdown.trueValue = select.dropdown.items?.filter((item) => item[valueKey] === value[valueKey])
+			//} else {
+			//	select.dropdown.trueValue = [value]
+			//}
+		} else {
+			select.value = value
 		}
 	}
 

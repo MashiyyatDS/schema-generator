@@ -3,7 +3,7 @@
 		<span class="text-sm">{{ convertStringCases(fieldName).regular }}: </span>
 
 		<template v-if="select.dropdown.type === 'object'">
-			<span class="text-sm text-green-400 font-bold">{{ selectedItems }}</span>
+			<span class="text-sm text-green-400 font-bold">{{ selectedItems?.join(', ') }}</span>
 		</template>
 
 		<span v-else class="text-sm text-green-400 font-bold">{{ selectedItems }}</span>

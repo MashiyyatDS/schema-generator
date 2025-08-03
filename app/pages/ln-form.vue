@@ -15,7 +15,10 @@ const payload = reactive({
 	last_name: 'Delos Santos',
 	email: 'delossantos.mash@gmail.com',
 	gender: 'Female',
-	status: 1,
+	status: {
+		name: 'CLOSED',
+		value: 1,
+	},
 	users: [
 		{
 			id: 1,
