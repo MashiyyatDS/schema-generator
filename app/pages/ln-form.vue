@@ -1,22 +1,14 @@
 <template>
 	<div class="p-1">
-		<div class="flex gap-1">
-			<UButtonGroup>
-				<UButton class="cursor-pointer" label="Validate" @click="useLnForm.validate(form)" />
+		<UButton class="cursor-pointer mb-1" label="Open Modal" @click="openModal" />
 
-				<UButton class="cursor-pointer" label="Reset" @click="useLnForm.reset(form)" />
-
-				<UButton class="cursor-pointer" label="Get Values" @click="getData" />
-
-				<UButton class="cursor-pointer" label="Set Values" @click="useLnForm.setFormData(form, payload)" />
-
-				<UButton class="cursor-pointer" label="Open Modal" @click="openModal" />
-			</UButtonGroup>
-		</div>
+		<LnFormPreview :form="form" :preview="preview" />
 	</div>
 </template>
 
 <script setup lang="ts">
+import type { LnFormPreview } from '~/types/laranuxt/LnForm'
+
 const payload = reactive({
 	first_name: 'Mashiyyat',
 	middle_name: 'Villasenor',
@@ -316,11 +308,19 @@ const form = reactive<LnForm>({
 	},
 })
 
-function getData() {
-	const formData = useLnForm.getValue(form)
-
-	console.log(formData)
-}
+const preview = reactive<LnFormPreview>({
+	title: 'Form Preview',
+	icon: 'material-symbols:check',
+	description: 'Info preview for confirmation',
+	attributes: {
+		class: 'rounded-sm',
+		variant: 'subtle',
+		ui: {
+			header: 'md:p-2 p-2',
+			body: 'md:p-0 p-2',
+		},
+	},
+})
 
 function openModal() {
 	useLnModal(
@@ -338,11 +338,7 @@ function openModal() {
 					header: 'sm:p-2 p-2',
 				},
 			},
-			confirmation: {
-				title: 'Confirmation',
-				description: 'Data confirmation',
-				icon: 'line-md:confirm',
-			},
+			preview: JSON.parse(JSON.stringify(preview)),
 		},
 		payload,
 		(response: any) => {

@@ -16,11 +16,9 @@
 						</div>
 					</div>
 
-					<div v-if="item?.title === 'Confirmation'" class="grid grid-cols-12 gap-2 mt-1">
-						<div v-if="modal?.form" class="col-span-12">
-							<pre>{{ useLnForm.getValue(modal.form) }}</pre>
-						</div>
-					</div>
+					<template v-if="modal?.preview && item?.title === modal?.preview?.title && modal?.form">
+						<LnFormPreview :form="modal.form" :preview="modal.preview" />
+					</template>
 				</template>
 			</UStepper>
 		</template>
@@ -50,7 +48,7 @@ const uploads = ref([])
 const items = computed((): StepperItem[] => [
 	...(modal.value?.form ? [{ title: modal.value.form.title, description: modal.value.form.description, icon: 'material-symbols:add-notes' }] : []),
 	...(modal.value?.uploader ? [{ title: 'Uploader', description: 'File attachments', icon: 'material-symbols:upload-file-rounded' }] : []),
-	...(modal.value?.confirmation ? [modal.value.confirmation] : []),
+	...(modal.value?.preview ? [modal.value.preview] : []),
 ])
 
 async function validateForm() {

@@ -27,7 +27,7 @@ class UseLnForm {
 			})
 		}
 
-		this.validate(lnForm)
+		//this.validate(lnForm)
 	}
 
 	reset(lnForm: LnForm) {

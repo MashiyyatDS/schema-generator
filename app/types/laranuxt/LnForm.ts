@@ -1,4 +1,5 @@
 import type { ModalProps } from '@nuxt/ui/components/Modal.vue'
+import type { CardProps } from '@nuxt/ui/components/Card.vue'
 
 export type LnForm = {
 	title?: string
@@ -14,13 +15,16 @@ export type LnForm = {
 	variant?: 'outline' | 'soft' | 'solid' | 'subtle'
 }
 
+export type LnFormPreview = {
+	title: string
+	description?: string
+	icon?: string
+	attributes?: CardProps
+}
+
 export type LnModal = {
 	attributes?: ModalProps
 	form?: LnForm
 	uploader?: boolean
-	confirmation?: {
-		title: string
-		description?: string
-		icon?: string
-	}
+	preview?: LnFormPreview
 }
