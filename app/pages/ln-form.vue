@@ -14,9 +14,34 @@ const payload = reactive({
 	middle_name: 'Villasenor',
 	last_name: 'Delos Santos',
 	email: 'delossantos.mash@gmail.com',
-	gender: 'Male',
+	gender: 'Female',
 	status: 1,
-	users: [2, 3, 4, 1],
+	users: [
+		{
+			id: 1,
+			name: 'Eustace Kaminski',
+			email: 'fkildea4r@ucsd.edu',
+			address: 'Mount Vernon, New York, United States',
+		},
+		{
+			id: 2,
+			name: 'Brewer Gwillim',
+			email: 'qkopman2y@princeton.edu',
+			address: 'Coppell, Texas, United States',
+		},
+		{
+			id: 3,
+			name: 'Domini Aitken',
+			email: 'hmanketell1n@cbslocal.com',
+			address: 'Fresno, California, United States',
+		},
+		{
+			id: 4,
+			name: 'Dave Olfert',
+			email: 'aovens6f@unesco.org',
+			address: 'Escondido, California, United States',
+		},
+	],
 	address: {
 		city: 'San Jose del Monte',
 		municipality: 'Bulacan',

@@ -5,11 +5,15 @@
 		</template>
 
 		<template v-if="form?.fields">
-			<UCard v-for="(field, key) in form.fields" :key="key" :ui="{ body: 'p-2 flex justify-between' }" class="rounded mb-1">
-				<span class="text-sm">{{ convertStringCases(key).regular }}: </span>
+			<div v-for="(field, key) in form.fields" :key="key">
+				<LnFormPreviewSelect v-if="field.type === 'select'" :field-name="key" :select="field" />
 
-				<span class="text-sm text-green-400 font-bold">{{ field.value }}</span>
-			</UCard>
+				<UCard v-else :ui="{ body: 'p-2 flex justify-between' }" class="rounded mb-1">
+					<span class="text-sm">{{ convertStringCases(key).regular }}: </span>
+
+					<span class="text-sm text-green-400 font-bold">{{ field.value }}</span>
+				</UCard>
+			</div>
 		</template>
 
 		<template v-if="form?.forms">

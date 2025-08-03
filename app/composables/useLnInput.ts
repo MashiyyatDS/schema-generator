@@ -18,6 +18,8 @@ export default function (input: LnInput) {
 					const valueKey = input.dropdown.valueKey
 
 					input.value = input.attributes?.multiple ? value.map((item: any) => (typeof item === 'object' ? item[valueKey] : item)) : value
+
+					input.dropdown.trueValue = value
 				} else {
 					input.value = value
 				}
