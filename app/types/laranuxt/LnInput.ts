@@ -89,7 +89,6 @@ interface ObjectDropdown<M = string> {
 	valueKey: M extends string ? string : keyof M
 	labelKey: M extends string ? string : keyof M
 	items?: M extends string ? Record<string, unknown>[] : { [K in keyof M]?: unknown }[]
-	trueValue?: Record<string, unknown>[]
 }
 
 interface StringDropdown {

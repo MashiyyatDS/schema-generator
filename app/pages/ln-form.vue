@@ -1,14 +1,20 @@
 <template>
 	<div class="p-2">
-		<UButton class="cursor-pointer mb-1" label="Open Modal" @click="openModal" />
+		<UButtonGroup>
+			<UButton class="cursor-pointer" label="Modal" @click="openModal" />
 
-		<LnFormPreview :form="form" :preview="preview" />
+			<UButton class="cursor-pointer" label="Reset" @click="useLnForm.reset(form)" />
+
+			<UButton class="cursor-pointer" label="Assign" @click="useLnForm.setFormData(form, payload)" />
+
+			<UButton class="cursor-pointer" label="Validate" @click="useLnForm.validate(form)" />
+		</UButtonGroup>
+
+		<LnForm ref="formData" v-model="form" />
 	</div>
 </template>
 
 <script setup lang="ts">
-import type { LnFormPreview } from '~/types/laranuxt/LnForm'
-
 const payload = reactive({
 	first_name: 'Mashiyyat',
 	middle_name: 'Villasenor',
@@ -272,6 +278,7 @@ const form = reactive<LnForm>({
 					},
 				},
 			},
+			variant: 'subtle',
 			ui: {
 				body: 'sm:p-2 p-2',
 				header: 'sm:p-2 p-2',
@@ -320,6 +327,7 @@ const form = reactive<LnForm>({
 					},
 				},
 			},
+			variant: 'subtle',
 			ui: {
 				body: 'sm:p-2',
 				header: 'sm:p-2 p-2',
@@ -334,18 +342,7 @@ const form = reactive<LnForm>({
 	},
 })
 
-const preview = reactive<LnFormPreview>({
-	title: 'Form Preview',
-	icon: 'material-symbols:check',
-	description: 'Info preview for confirmation',
-	attributes: {
-		class: 'rounded-sm',
-		ui: {
-			header: 'lg:p-2 md:p-2 sm:p-2 xs:p-2 p-2',
-			body: 'xl:p-2 lg:p-2 md:p-2 sm:p-2 p-2',
-		},
-	},
-})
+const formData = ref(null)
 
 function openModal() {
 	useLnModal(
@@ -361,9 +358,21 @@ function openModal() {
 					footer: 'sm:p-2 p-2',
 					body: 'sm:p-2 p-2',
 					header: 'sm:p-2 p-2',
+					close: 'rounded-full cursor-pointer',
 				},
 			},
-			preview: JSON.parse(JSON.stringify(preview)),
+			preview: {
+				title: 'Preview',
+				icon: 'material-symbols:check',
+				description: 'Info preview for confirmation',
+				attributes: {
+					class: 'rounded-sm',
+					ui: {
+						header: 'lg:p-2 md:p-2 sm:p-2 xs:p-2 p-2',
+						body: 'xl:p-2 lg:p-2 md:p-2 sm:p-2 p-2',
+					},
+				},
+			},
 		},
 		payload,
 		(response: any) => {

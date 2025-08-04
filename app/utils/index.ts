@@ -22,7 +22,7 @@ export function convertStringCases(input: string) {
 	}
 }
 
-export function deepGet(nestedKey: string, payload: Record<string, unknown>) {
+export function deepGet(nestedKey: string, payload: Record<string, any>) {
 	return nestedKey.split('.').reduce((acc: unknown, key: string) => {
 		if (acc && typeof acc === 'object' && key in acc) {
 			return (acc as Record<string, unknown>)[key]
