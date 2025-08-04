@@ -1,19 +1,20 @@
 <template>
-	<USelect v-model="lnInputSelect.value" :items="items" v-bind="lnInputSelect.attributes" />
+	<USelect v-model="select.value" :items="items" v-bind="select.attributes" />
 </template>
 
 <script setup lang="ts">
 import type { LnInputSelect } from '~/types/laranuxt/LnInput'
+import { validate } from 'robust-validator'
 
-const lnInputSelect = defineModel<LnInputSelect>({ required: true })
+const select = defineModel<LnInputSelect>({ required: true })
 
 onMounted(async () => {
-	if (lnInputSelect.value.server) {
-		switch (lnInputSelect.value.server.protocol) {
+	if (select.value.server) {
+		switch (select.value.server.protocol) {
 			case 'rest':
-				const items: Record<string, any>[] = await $fetch(lnInputSelect.value.server.endpoint)
+				const items: Record<string, any>[] = await $fetch(select.value.server.endpoint)
 
-				lnInputSelect.value.dropdown.items = items
+				select.value.dropdown.items = items
 
 				break
 
@@ -21,19 +22,50 @@ onMounted(async () => {
 				break
 		}
 	}
+
+	assignTruValue()
 })
 
 const items = computed(() => {
-	if (lnInputSelect.value.dropdown.type === 'object') {
-		const labelKey = lnInputSelect.value.dropdown.labelKey
-		const valueKey = lnInputSelect.value.dropdown.valueKey
+	if (select.value.dropdown.type === 'object') {
+		const labelKey = select.value.dropdown.labelKey
+		const valueKey = select.value.dropdown.valueKey
 
-		return lnInputSelect.value.dropdown.items?.map((item) => ({
+		return select.value.dropdown.items?.map((item) => ({
 			label: item[labelKey],
 			value: item[valueKey],
 		}))
 	}
 
-	return lnInputSelect.value.dropdown.items
+	return select.value.dropdown.items
 }) as ComputedRef<string[] | { label: string; value: string }[]>
+
+async function assignTruValue() {
+	const selectValue = select.value.value
+
+	const items = select.value.dropdown.items ?? []
+
+	const result = await validate(select.value, { value: 'required' })
+
+	if (result.isInvalid || (Array.isArray(selectValue) && !selectValue.length)) return
+
+	if (select.value.dropdown.type === 'object') {
+		const keyValue = select.value.dropdown.valueKey
+
+		if (Array.isArray(selectValue)) {
+			const trueValue = selectValue.every((value) => typeof value === 'object')
+				? selectValue
+				: items.filter((item) => selectValue.some((sItem) => (typeof item === 'object' ? item[keyValue] === sItem : sItem === item)))
+
+			select.value.dropdown.trueValue = trueValue
+		} else {
+			const trueValue =
+				typeof selectValue === 'object'
+					? [selectValue]
+					: items.filter((item) => (typeof item === 'object' && item[keyValue] === selectValue) || item === selectValue)
+
+			select.value.dropdown.trueValue = trueValue
+		}
+	}
+}
 </script>

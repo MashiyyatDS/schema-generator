@@ -40,18 +40,9 @@ export default function (input: LnInput) {
 
 			if (Array.isArray(value)) {
 				select.value = value.map((item) => (typeof item === 'object' ? item[valueKey] : item))
-
-				console.log(select.value)
 			} else {
 				select.value = typeof value === 'object' ? value[valueKey] : value
 			}
-			//if (Array.isArray(value)) {
-			//	select.dropdown.trueValue = value
-			//} else if (typeof value === 'object') {
-			//	select.dropdown.trueValue = select.dropdown.items?.filter((item) => item[valueKey] === value[valueKey])
-			//} else {
-			//	select.dropdown.trueValue = [value]
-			//}
 		} else {
 			select.value = value
 		}

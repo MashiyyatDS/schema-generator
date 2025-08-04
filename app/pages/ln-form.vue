@@ -1,5 +1,5 @@
 <template>
-	<div class="p-1">
+	<div class="p-2">
 		<UButton class="cursor-pointer mb-1" label="Open Modal" @click="openModal" />
 
 		<LnFormPreview :form="form" :preview="preview" />
@@ -341,8 +341,8 @@ const preview = reactive<LnFormPreview>({
 	attributes: {
 		class: 'rounded-sm',
 		ui: {
-			header: 'md:p-2 p-2',
-			body: 'md:p-0 p-2',
+			header: 'lg:p-2 md:p-2 sm:p-2 xs:p-2 p-2',
+			body: 'xl:p-2 lg:p-2 md:p-2 sm:p-2 p-2',
 		},
 	},
 })
