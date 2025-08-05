@@ -5,12 +5,13 @@
 
 			<UButton class="cursor-pointer" label="Reset" @click="useLnForm.reset(form)" />
 
-			<UButton class="cursor-pointer" label="Assign" @click="useLnForm.setFormData(form, payload)" />
+			<UButton
+				class="cursor-pointer"
+				label="Assign"
+				@click="useLnForm.setFormData(form, payload)" />
 
 			<UButton class="cursor-pointer" label="Validate" @click="useLnForm.validate(form)" />
 		</UButtonGroup>
-
-		<LnForm ref="formData" v-model="form" />
 	</div>
 </template>
 
@@ -60,6 +61,7 @@ const payload = reactive({
 		full_name: 'Merry Grace Managuit',
 		email: 'merrygrace27@gmail.com',
 	},
+	developers: ['Brewer Gwillim', 'Dave Olfert', 'Krishna Spellissy'],
 })
 
 const form = reactive<LnForm>({
@@ -215,6 +217,33 @@ const form = reactive<LnForm>({
 				},
 			},
 		},
+		developers: {
+			type: 'select-menu',
+			label: 'Select Developers',
+			grid: 'col-span-12',
+			nullInUndefined: true,
+			attributes: {
+				placeholder: 'This is a sample input',
+				class: 'w-full',
+				multiple: true,
+				valueKey: 'name',
+			},
+			dropdown: {
+				type: 'object',
+				labelKey: 'name',
+				valueKey: 'name',
+			},
+			server: {
+				protocol: 'rest',
+				endpoint: 'https://retoolapi.dev/yGHdpo/data',
+			},
+			validations: {
+				rules: 'required',
+				messages: {
+					required: 'Please select a user',
+				},
+			},
+		},
 	},
 	forms: {
 		address: {
@@ -341,8 +370,6 @@ const form = reactive<LnForm>({
 		root: 'rounded-sm',
 	},
 })
-
-const formData = ref(null)
 
 function openModal() {
 	useLnModal(

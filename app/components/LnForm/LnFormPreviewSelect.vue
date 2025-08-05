@@ -1,5 +1,7 @@
 <template>
-	<UCard :ui="{ body: 'xl:p-1 lg:p-1 md:p-1 sm:p-1 p-1 flex justify-between' }" class="rounded mb-1">
+	<UCard
+		:ui="{ body: 'xl:p-1 lg:p-1 md:p-1 sm:p-1 p-1 flex justify-between' }"
+		class="rounded mb-1">
 		<span class="text-sm">{{ convertStringCases(fieldName).regular }}: </span>
 
 		<template v-if="select.dropdown.type === 'object'">
@@ -7,7 +9,9 @@
 				<UBadge v-for="(item, key) in selectedItems" :key="key">{{ item }}</UBadge>
 			</div>
 
-			<span v-else class="text-sm text-green-400 font-bold">{{ selectedItems?.join(', ') }}</span>
+			<span v-else class="text-sm text-green-400 font-bold">{{
+				selectedItems?.join(', ')
+			}}</span>
 		</template>
 
 		<span v-else class="text-sm text-green-400 font-bold">{{ selectedItems }}</span>
@@ -15,7 +19,10 @@
 </template>
 
 <script setup lang="ts">
-const props = withDefaults(defineProps<{ select: LnInputSelect; fieldName: string }>(), {})
+const props = withDefaults(
+	defineProps<{ select: LnInputSelect | LnInputSelectMenu; fieldName: string }>(),
+	{}
+)
 
 const selectedItems = computed(() => {
 	const modelValue = useLnInput(props.select).getValue()
@@ -32,9 +39,13 @@ const selectedItems = computed(() => {
 
 			const items = props.select.dropdown?.items
 				?.filter((item) => {
-					const modelItems = isObjectArray ? modelValue.map((mValue) => mValue[valueKey]) : modelValue
+					const modelItems = isObjectArray
+						? modelValue.map((mValue) => mValue[valueKey])
+						: modelValue
 
-					return typeof item === 'object' ? modelItems.includes(item[valueKey]) : modelItems.includes(item)
+					return typeof item === 'object'
+						? modelItems.includes(item[valueKey])
+						: modelItems.includes(item)
 				})
 				.map((item) => (typeof item === 'object' ? item[labelKey] : item))
 
@@ -43,9 +54,13 @@ const selectedItems = computed(() => {
 			const items = props.select.dropdown?.items
 				?.filter((item) => {
 					if (typeof item === 'object') {
-						return typeof modelValue === 'object' ? modelValue[valueKey] === item[valueKey] : modelValue === item[valueKey]
+						return typeof modelValue === 'object'
+							? modelValue[valueKey] === item[valueKey]
+							: modelValue === item[valueKey]
 					} else {
-						return typeof modelValue === 'object' ? modelValue[valueKey] === item : modelValue === item
+						return typeof modelValue === 'object'
+							? modelValue[valueKey] === item
+							: modelValue === item
 					}
 				})
 				.map((item) => (typeof item === 'object' ? item[labelKey] : item))

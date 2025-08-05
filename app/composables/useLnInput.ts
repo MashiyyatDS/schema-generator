@@ -18,6 +18,11 @@ export default function (input: LnInput) {
 
 				break
 
+			case 'select-menu':
+				setSelectInput(input, value)
+
+				break
+
 			case 'calendar-input':
 				break
 
@@ -28,7 +33,7 @@ export default function (input: LnInput) {
 		}
 	}
 
-	const setSelectInput = (select: LnInputSelect, value: unknown | any) => {
+	const setSelectInput = (select: LnInputSelect | LnInputSelectMenu, value: unknown | any) => {
 		/**
 		 * value: {name: "OPEN", value: 1}
 		 * value: [{name: "OPEN", value: 1}, {name: "CLOSED", value: 2}]
@@ -39,7 +44,9 @@ export default function (input: LnInput) {
 			const valueKey = select.dropdown.valueKey
 
 			if (Array.isArray(value)) {
-				select.value = value.map((item) => (typeof item === 'object' ? item[valueKey] : item))
+				select.value = value.map((item) =>
+					typeof item === 'object' ? item[valueKey] : item
+				)
 			} else {
 				select.value = typeof value === 'object' ? value[valueKey] : value
 			}
@@ -51,7 +58,8 @@ export default function (input: LnInput) {
 	const resetValue = () => {
 		const undefinedNull = input?.nullInUndefined ? null : undefined
 
-		input.value = 'defaultValue' in input.attributes ? input.attributes.defaultValue : undefinedNull
+		input.value =
+			'defaultValue' in input.attributes ? input.attributes.defaultValue : undefinedNull
 
 		input.errors = undefined
 	}
@@ -59,9 +67,16 @@ export default function (input: LnInput) {
 	const validateValue = async (fieldName: string) => {
 		if (!input.validations) return { isValid: true }
 
-		const result = await validate({ [fieldName]: input.value }, { [fieldName]: input.validations?.rules })
+		const result = await validate(
+			{ [fieldName]: input.value },
+			{ [fieldName]: input.validations?.rules }
+		)
 
-		input.errors = result.isInvalid ? result.errors[fieldName]?.map((error) => input.validations?.messages[error.rule]).join(', ') : undefined
+		input.errors = result.isInvalid
+			? result.errors[fieldName]
+					?.map((error) => input.validations?.messages[error.rule])
+					.join(', ')
+			: undefined
 
 		return result
 	}

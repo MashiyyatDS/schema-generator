@@ -1,4 +1,5 @@
 import type { InputNumberProps } from '@nuxt/ui/components/InputNumber.vue'
+import type { SelectMenuProps } from '@nuxt/ui/components/SelectMenu.vue'
 import type { RadioGroupProps } from '@nuxt/ui/components/RadioGroup.vue'
 import type { InputMenuProps } from '@nuxt/ui/components/InputMenu.vue'
 import type { TextareaProps } from '@nuxt/ui/components/Textarea.vue'
@@ -103,6 +104,13 @@ export interface LnInputSelect<M = string> extends LnInputBaseInterface {
 	dropdown: ObjectDropdown<M> | StringDropdown
 }
 
+export interface LnInputSelectMenu extends LnInputBaseInterface {
+	type: 'select-menu'
+	attributes: (SelectMenuProps & { valueKey: string }) | Record<string, unknown>
+	server?: ServerMethod
+	dropdown: ObjectDropdown | StringDropdown
+}
+
 export interface LnInputDefault extends LnInputBaseInterface {
 	type: 'input'
 	attributes: InputProps | Record<string, unknown>
@@ -153,6 +161,7 @@ export interface LnInputRadioGroup<M = string> extends LnInputBaseInterface {
 export type LnInput =
 	| LnInputDefault
 	| LnInputSelect
+	| LnInputSelectMenu
 	| LnInputTextarea
 	| LnInputCalendar
 	| LnInputPin
