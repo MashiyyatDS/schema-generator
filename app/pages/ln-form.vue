@@ -12,9 +12,7 @@
 
 <script setup lang="ts">
 const payload = reactive({
-	first_name: 'Mashiyyat',
-	middle_name: 'Villasenor',
-	last_name: 'Delos Santos',
+	first_name: 'Mashiyyat Delos Santos',
 	email: 'delossantos.mash@gmail.com',
 	gender: 'Female',
 	status: 1,
@@ -99,6 +97,25 @@ const form = reactive<LnForm>({
 	title: 'User Form',
 	description: 'This is a sample form for users',
 	fields: {
+		full_name: {
+			type: 'input',
+			label: 'Full name',
+			attributes: {
+				placeholder: 'Enter your full name here.',
+				class: 'w-full',
+				icon: 'material-symbols:edit-note',
+			},
+			grid: 'col-span-12',
+			description: 'Please enter your full name.',
+			validateOnChange: true,
+			validations: {
+				rules: 'required|min:5',
+				messages: {
+					required: 'Please provide your full name.',
+					min: 'Minimum 5 characters are required.',
+				},
+			},
+		},
 		gender: {
 			type: 'select',
 			label: 'Select gender',
@@ -220,7 +237,7 @@ const form = reactive<LnForm>({
 				deleteIcon: 'i-lucide-trash',
 				class: 'w-full',
 				multiple: true,
-				valueKey: 'id',
+				//valueKey: 'id',
 				labelKey: 'name',
 			},
 			dropdown: {
@@ -239,7 +256,7 @@ const form = reactive<LnForm>({
 					noEmptyArray: 'Please select at least 1 developer',
 				},
 			},
-			//returnObject: true,
+			returnObject: true,
 		},
 	},
 	ui: {
@@ -252,7 +269,7 @@ function openModal() {
 	useLnModal(
 		{
 			form,
-			//uploader: true,
+			uploader: true,
 			attributes: {
 				title: 'LaraNuxt Dynamic Modal',
 				close: true,
