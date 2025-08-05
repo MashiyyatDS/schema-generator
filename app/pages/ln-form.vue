@@ -61,7 +61,27 @@ const payload = reactive({
 		full_name: 'Merry Grace Managuit',
 		email: 'merrygrace27@gmail.com',
 	},
-	developers: ['Brewer Gwillim', 'Dave Olfert', 'Krishna Spellissy'],
+	developers: [
+		{
+			id: 5,
+			name: 'Brewer Rogeon',
+			email: 'fegdalej@infoseek.co.jp',
+			address: 'Denton, Texas, United States',
+		},
+		{
+			id: 6,
+			name: 'Krishna Spellissy',
+			email: 'idrains4u@google.com.hk',
+			address: 'New Braunfels, Texas, United States',
+		},
+		{
+			id: 7,
+			name: 'Filippa Cunliffe',
+			email: 'prawlingson4w@phoca.cz',
+			address: 'Lubbock, Texas, United States',
+		},
+	],
+	customers: [1, 2, 3, 4, 5],
 })
 
 const form = reactive<LnForm>({
@@ -197,9 +217,9 @@ const form = reactive<LnForm>({
 			grid: 'lg:col-span-6 md:col-span-6 col-span-12',
 			nullInUndefined: true,
 			attributes: {
+				multiple: true,
 				placeholder: 'This is a sample input',
 				class: 'w-full',
-				multiple: true,
 			},
 			dropdown: {
 				type: 'object',
@@ -227,12 +247,41 @@ const form = reactive<LnForm>({
 				placeholder: 'This is a sample input',
 				class: 'w-full',
 				multiple: true,
-				valueKey: 'name',
+				valueKey: 'id',
 			},
 			dropdown: {
 				type: 'object',
 				labelKey: 'name',
-				valueKey: 'name',
+				valueKey: 'id',
+			},
+			server: {
+				protocol: 'rest',
+				endpoint: 'https://retoolapi.dev/yGHdpo/data',
+			},
+			validations: {
+				rules: 'required|noEmptyArray',
+				messages: {
+					required: 'Please select a user',
+					noEmptyArray: 'Please select at least 1 developer',
+				},
+			},
+		},
+		customers: {
+			type: 'input-menu',
+			label: 'Select Customers',
+			grid: 'col-span-12',
+			nullInUndefined: true,
+			validateOnChange: true,
+			attributes: {
+				placeholder: 'This is a sample input',
+				class: 'w-full',
+				multiple: true,
+				valueKey: 'id',
+			},
+			dropdown: {
+				type: 'object',
+				labelKey: 'name',
+				valueKey: 'id',
 			},
 			server: {
 				protocol: 'rest',
@@ -367,9 +416,9 @@ const form = reactive<LnForm>({
 		},
 	},
 	ui: {
-		body: 'md:p-2 p-2',
-		header: 'md:p-2 p-2',
-		root: 'rounded-sm',
+		body: 'lg:p-2 md:p-2 sm:p-2 p-2',
+		header: 'lg:p-2 md:p-2 sm:p-2 p-2',
+		root: 'rounded-sm border-none',
 	},
 })
 

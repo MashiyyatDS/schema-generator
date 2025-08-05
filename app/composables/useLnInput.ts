@@ -1,7 +1,7 @@
 import { validate } from 'robust-validator'
 
 export default function (input: LnInput) {
-	const getValue = () => {
+	function getValue() {
 		return input?.value
 			? input.value
 			: input?.nullInUndefined
@@ -11,7 +11,7 @@ export default function (input: LnInput) {
 			: undefined
 	}
 
-	const setValue = (value: unknown | any) => {
+	function setValue(value: unknown | any) {
 		switch (input.type) {
 			case 'select':
 				setSelectInput(input, value)
@@ -33,7 +33,7 @@ export default function (input: LnInput) {
 		}
 	}
 
-	const setSelectInput = (select: LnInputSelect | LnInputSelectMenu, value: unknown | any) => {
+	function setSelectInput(select: LnInputSelect | LnInputSelectMenu, value: unknown | any) {
 		/**
 		 * value: {name: "OPEN", value: 1}
 		 * value: [{name: "OPEN", value: 1}, {name: "CLOSED", value: 2}]

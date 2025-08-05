@@ -7,12 +7,11 @@
 		<template v-if="form?.fields">
 			<div v-for="(field, key) in form.fields" :key="key">
 				<LnFormPreviewSelect
-					v-if="field.type === 'select'"
-					:field-name="key"
-					:select="field" />
-
-				<LnFormPreviewSelect
-					v-else-if="field.type === 'select-menu'"
+					v-if="
+						field.type === 'select' ||
+						field.type === 'select-menu' ||
+						field.type === 'input-menu'
+					"
 					:field-name="key"
 					:select="field" />
 

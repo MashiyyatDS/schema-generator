@@ -107,7 +107,7 @@ export interface LnInputSelect<M = string> extends LnInputBaseInterface {
 
 export interface LnInputSelectMenu extends LnInputBaseInterface {
 	type: 'select-menu'
-	attributes: (SelectMenuProps & { valueKey: string }) | Record<string, unknown>
+	attributes: SelectMenuProps | Record<string, unknown>
 	server?: ServerMethod
 	dropdown: ObjectDropdown | StringDropdown
 	trueValue?: unknown[]
@@ -151,6 +151,8 @@ export interface LnInputSlider extends LnInputBaseInterface {
 export interface LnInputMenu extends LnInputBaseInterface {
 	type: 'input-menu'
 	attributes: InputMenuProps | Record<string, unknown>
+	server?: ServerMethod
+	dropdown: ObjectDropdown | StringDropdown
 }
 
 export interface LnInputRadioGroup<M = string> extends LnInputBaseInterface {

@@ -12,6 +12,8 @@
 				v-model="lnInput.value"
 				@update:model-value="onValueUpdated" />
 
+			<LnInputMenu v-if="lnInput.type === 'input-menu'" :model-value="lnInput" />
+
 			<UTextarea
 				v-if="lnInput.type === 'textarea'"
 				v-bind="lnInput.attributes"

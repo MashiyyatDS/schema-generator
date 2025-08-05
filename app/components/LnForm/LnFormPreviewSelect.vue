@@ -1,26 +1,48 @@
 <template>
 	<UCard
-		:ui="{ body: 'xl:p-1 lg:p-1 md:p-1 sm:p-1 p-1 flex justify-between' }"
+		:ui="{
+			body: 'xl:p-1 lg:p-1 md:p-1 sm:p-1 p-1',
+			header: 'xl:p-1 lg:p-1 md:p-1 sm:p-1 p-1',
+		}"
 		class="rounded mb-1">
-		<span class="text-sm">{{ convertStringCases(fieldName).regular }}: </span>
-
-		<template v-if="select.dropdown.type === 'object'">
-			<div v-if="'multiple' in select.attributes" class="flex gap-1">
-				<UBadge v-for="(item, key) in selectedItems" :key="key">{{ item }}</UBadge>
-			</div>
-
-			<span v-else class="text-sm text-green-400 font-bold">{{
-				selectedItems?.join(', ')
-			}}</span>
+		<template
+			v-if="select.dropdown.type === 'object' && 'multiple' in select.attributes"
+			#header>
+			{{ convertStringCases(fieldName).regular }}
 		</template>
 
-		<span v-else class="text-sm text-green-400 font-bold">{{ selectedItems }}</span>
+		<template v-if="select.dropdown.type === 'object'">
+			<div v-if="'multiple' in select.attributes">
+				<UBadge
+					v-for="(item, key) in selectedItems"
+					:key="key"
+					class="mr-1 mb-1"
+					:label="item" />
+			</div>
+
+			<div v-else class="flex justify-between">
+				<span>{{ convertStringCases(fieldName).regular }}</span>
+
+				<span class="text-sm text-green-400 font-bold flex justify-between">
+					{{ selectedItems?.join(', ') }}
+				</span>
+			</div>
+		</template>
+
+		<div v-else class="flex justify-between">
+			<span>{{ convertStringCases(fieldName).regular }}</span>
+
+			<span class="text-sm text-green-400 font-bold">{{ selectedItems }}</span>
+		</div>
 	</UCard>
 </template>
 
 <script setup lang="ts">
 const props = withDefaults(
-	defineProps<{ select: LnInputSelect | LnInputSelectMenu; fieldName: string }>(),
+	defineProps<{
+		select: LnInputSelect | LnInputSelectMenu | LnInputMenu
+		fieldName: string
+	}>(),
 	{}
 )
 
@@ -31,7 +53,6 @@ const selectedItems = computed(() => {
 
 	if (props.select.dropdown.type === 'object') {
 		const valueKey = props.select.dropdown.valueKey
-
 		const labelKey = props.select.dropdown.labelKey
 
 		if (Array.isArray(modelValue)) {
@@ -50,25 +71,25 @@ const selectedItems = computed(() => {
 				.map((item) => (typeof item === 'object' ? item[labelKey] : item))
 
 			return items
-		} else {
-			const items = props.select.dropdown?.items
-				?.filter((item) => {
-					if (typeof item === 'object') {
-						return typeof modelValue === 'object'
-							? modelValue[valueKey] === item[valueKey]
-							: modelValue === item[valueKey]
-					} else {
-						return typeof modelValue === 'object'
-							? modelValue[valueKey] === item
-							: modelValue === item
-					}
-				})
-				.map((item) => (typeof item === 'object' ? item[labelKey] : item))
-
-			return items
 		}
-	} else {
-		return props.select.value
+
+		const items = props.select.dropdown?.items
+			?.filter((item) => {
+				if (typeof item === 'object') {
+					return typeof modelValue === 'object'
+						? modelValue[valueKey] === item[valueKey]
+						: modelValue === item[valueKey]
+				} else {
+					return typeof modelValue === 'object'
+						? modelValue[valueKey] === item
+						: modelValue === item
+				}
+			})
+			.map((item) => (typeof item === 'object' ? item[labelKey] : item))
+
+		return items
 	}
+
+	return props.select.value
 })
 </script>

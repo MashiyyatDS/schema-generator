@@ -1,9 +1,15 @@
 <template>
-	<USelect v-model="select.value" :items="items" v-bind="select.attributes" />
+	<USelect
+		v-model="select.value"
+		:items="items"
+		v-bind="select.attributes"
+		@update:model-value="$emit('valueChanges')" />
 </template>
 
 <script setup lang="ts">
 import type { LnInputSelect } from '~/types/laranuxt/LnInput'
+
+defineEmits(['valueChanges'])
 
 const select = defineModel<LnInputSelect>({ required: true })
 
