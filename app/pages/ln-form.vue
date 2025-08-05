@@ -474,7 +474,7 @@ const form = reactive<LnForm>({
 	ui: {
 		body: 'lg:p-2 md:p-2 sm:p-2 p-2',
 		header: 'lg:p-2 md:p-2 sm:p-2 p-2',
-		root: 'rounded-none',
+		root: 'rounded-sm',
 	},
 })
 
@@ -490,8 +490,7 @@ function openModal() {
 				dismissible: false,
 				ui: {
 					footer: 'sm:p-2 p-2',
-					body: 'sm:p-2 p-2',
-					header: 'sm:p-2 p-2',
+					body: 'xl:p-2 lg:p-2 md:p-2 sm:p-2 p-2',
 					close: 'rounded-full cursor-pointer',
 					content: 'rounded-sm',
 				},

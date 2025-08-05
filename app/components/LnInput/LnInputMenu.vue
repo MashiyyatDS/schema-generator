@@ -30,7 +30,7 @@ onMounted(async () => {
 	}
 })
 
-function searchItem(event: string) {
-	console.log(event)
+function searchItem() {
+	//console.log(event)
 }
 </script>

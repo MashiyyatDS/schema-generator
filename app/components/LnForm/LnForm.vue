@@ -1,7 +1,7 @@
 <template>
-	<UCard :ui="form?.ui" :variant="form?.variant">
-		<template #header> {{ form.title }} </template>
+	<USeparator :label="form.title" class="mt-3 mb-3" />
 
+	<UCard :ui="form?.ui" :variant="form?.variant">
 		<div class="grid grid-cols-12 gap-1">
 			<LnInput v-for="(field, key) in form.fields" :key="key" :model-value="field" />
 

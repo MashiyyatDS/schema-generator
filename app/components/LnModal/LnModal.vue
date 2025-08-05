@@ -1,9 +1,21 @@
 <template>
-	<UModal :close="{ onClick: () => emit('close', false) }" v-bind="modal.attributes">
+	<UModal
+		v-bind="modal.attributes"
+		:ui="{ ...modal.attributes?.ui, header: 'flex justify-between' }">
+		<template #close="{ close }">
+			<UButton
+				variant="ghost"
+				class="self-end self-center rounded-full cursor-pointer"
+				icon="material-symbols:close-rounded"
+				@click="closeModal(close)" />
+		</template>
+
 		<template #body>
 			<UStepper ref="stepper" :items="items" size="xs" class="w-full" disabled>
 				<template #content="{ item }">
-					<LnForm v-if="modal?.form && item.title === modal?.form.title" v-model="modal.form" />
+					<LnForm
+						v-if="modal?.form && item.title === modal?.form.title"
+						v-model="modal.form" />
 
 					<div v-if="item?.title === 'Uploader'" class="grid grid-cols-12 gap-2 mt-1">
 						<div class="col-span-12">
@@ -16,7 +28,10 @@
 						</div>
 					</div>
 
-					<template v-if="modal?.preview && item?.title === modal?.preview?.title && modal?.form">
+					<template
+						v-if="
+							modal?.preview && item?.title === modal?.preview?.title && modal?.form
+						">
 						<LnFormPreview :form="modal.form" :preview="modal.preview" />
 					</template>
 				</template>
@@ -25,11 +40,23 @@
 
 		<template #footer>
 			<div class="flex justify-between w-full">
-				<UButton :disabled="!stepper?.hasPrev" label="Previous" @click="stepper?.prev()" />
+				<UButton
+					class="cursor-pointer"
+					:disabled="!stepper?.hasPrev"
+					label="Previous"
+					@click="stepper?.prev()" />
 
-				<UButton v-if="stepper?.hasNext" label="Next" @click="stepper?.next()" />
+				<UButton
+					v-if="stepper?.hasNext"
+					class="cursor-pointer"
+					label="Next"
+					@click="nextItem(stepper?.next)" />
 
-				<UButton v-if="!stepper?.hasNext" label="Confirm" @click="validateForm" />
+				<UButton
+					v-if="!stepper?.hasNext"
+					class="cursor-pointer"
+					label="Confirm"
+					@click="validateForm" />
 			</div>
 		</template>
 	</UModal>
@@ -40,14 +67,29 @@ import type { StepperItem } from '@nuxt/ui'
 
 const props = withDefaults(defineProps<{ callback?: (response: any) => void }>(), {})
 const modal = defineModel<LnModal>({ required: true })
-const emit = defineEmits<{ close: [boolean] }>()
 const stepper = useTemplateRef('stepper')
 
 const uploads = ref([])
 
 const items = computed((): StepperItem[] => [
-	...(modal.value?.form ? [{ title: modal.value.form.title, description: modal.value.form.description, icon: 'material-symbols:add-notes' }] : []),
-	...(modal.value?.uploader ? [{ title: 'Uploader', description: 'File attachments', icon: 'material-symbols:upload-file-rounded' }] : []),
+	...(modal.value?.form
+		? [
+				{
+					title: modal.value.form.title,
+					description: modal.value.form.description,
+					icon: 'material-symbols:add-notes',
+				},
+		  ]
+		: []),
+	...(modal.value?.uploader
+		? [
+				{
+					title: 'Uploader',
+					description: 'File attachments',
+					icon: 'material-symbols:upload-file-rounded',
+				},
+		  ]
+		: []),
 	...(modal.value?.preview ? [modal.value.preview] : []),
 ])
 
@@ -58,5 +100,23 @@ async function validateForm() {
 			...(modal.value?.form ? useLnForm.getValue(modal.value.form) : {}),
 		})
 	}
+}
+
+async function nextItem(callback: any) {
+	if (modal.value.form) {
+		const valid = await useLnForm.validate(modal.value.form)
+
+		if (!valid) return
+	}
+
+	callback()
+}
+
+function closeModal(callback: any) {
+	if (modal.value.form) {
+		useLnForm.reset(modal.value.form)
+	}
+
+	callback()
 }
 </script>
