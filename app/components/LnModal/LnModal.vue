@@ -2,12 +2,14 @@
 	<UModal
 		v-bind="modal.attributes"
 		:ui="{ ...modal.attributes?.ui, header: 'flex justify-between' }">
-		<template #close="{ close }">
+		<template v-if="!modal.attributes?.description" #description />
+
+		<template #close>
 			<UButton
 				variant="ghost"
 				class="self-end self-center rounded-full cursor-pointer"
 				icon="material-symbols:close-rounded"
-				@click="closeModal(close)" />
+				@click="closeModal" />
 		</template>
 
 		<template #body>
@@ -96,10 +98,12 @@ const items = computed((): StepperItem[] => [
 async function validateForm() {
 	if (props.callback) {
 		props.callback({
-			uploads: uploads.value,
+			...(modal.value?.uploader ? { uploads: uploads.value } : {}),
 			...(modal.value?.form ? useLnForm.getValue(modal.value.form) : {}),
 		})
 	}
+
+	modalOverlay.close()
 }
 
 async function nextItem(callback: any) {
@@ -112,11 +116,9 @@ async function nextItem(callback: any) {
 	callback()
 }
 
-function closeModal(callback: any) {
-	if (modal.value.form) {
-		useLnForm.reset(modal.value.form)
-	}
-
-	callback()
+function closeModal() {
+	setTimeout(() => {
+		if (modal.value.form) useLnForm.reset(modal.value.form)
+	}, 200)
 }
 </script>

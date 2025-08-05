@@ -53,16 +53,19 @@ export default function (input: LnInput) {
 
 			if (Array.isArray(value)) {
 				select.value = value.map((item) =>
-					typeof item === 'object' ? item[valueKey] : item
+					typeof item === 'object' ? (select?.returnObject ? item : item[valueKey]) : item
 				)
 			} else {
-				select.value = typeof value === 'object' ? value[valueKey] : value
+				select.value =
+					typeof value === 'object'
+						? select?.returnObject
+							? value
+							: value[valueKey]
+						: value
 			}
 		} else {
 			select.value = value
 		}
-
-		//select.trueValue = value
 	}
 
 	const resetValue = () => {

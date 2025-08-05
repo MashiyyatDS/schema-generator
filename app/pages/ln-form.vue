@@ -5,11 +5,6 @@
 
 			<UButton class="cursor-pointer" label="Reset" @click="useLnForm.reset(form)" />
 
-			<UButton
-				class="cursor-pointer"
-				label="Assign"
-				@click="useLnForm.setFormData(form, payload)" />
-
 			<UButton class="cursor-pointer" label="Validate" @click="useLnForm.validate(form)" />
 		</UButtonGroup>
 	</div>
@@ -22,10 +17,7 @@ const payload = reactive({
 	last_name: 'Delos Santos',
 	email: 'delossantos.mash@gmail.com',
 	gender: 'Female',
-	status: {
-		name: 'OPEN',
-		value: 1,
-	},
+	status: 1,
 	users: [
 		{
 			id: 1,
@@ -81,91 +73,36 @@ const payload = reactive({
 			address: 'Lubbock, Texas, United States',
 		},
 	],
-	customers: [1, 2, 3, 4, 5],
+	customers: [
+		{
+			id: 5,
+			name: 'Brewer Rogeon',
+			email: 'fegdalej@infoseek.co.jp',
+			address: 'Denton, Texas, United States',
+		},
+		{
+			id: 6,
+			name: 'Krishna Spellissy',
+			email: 'idrains4u@google.com.hk',
+			address: 'New Braunfels, Texas, United States',
+		},
+		{
+			id: 7,
+			name: 'Filippa Cunliffe',
+			email: 'prawlingson4w@phoca.cz',
+			address: 'Lubbock, Texas, United States',
+		},
+	],
 })
 
 const form = reactive<LnForm>({
 	title: 'User Form',
 	description: 'This is a sample form for users',
 	fields: {
-		first_name: {
-			type: 'input',
-			label: 'First Name',
-			nullInUndefined: true,
-			validateOnChange: true,
-			grid: 'col-span-12',
-			attributes: {
-				placeholder: 'This is a sample input',
-				class: 'w-full',
-			},
-			validations: {
-				rules: 'required|min:5',
-				messages: {
-					required: 'This field is required',
-					min: 'Minimum 5 character is required',
-				},
-			},
-		},
-		middle_name: {
-			type: 'input',
-			label: 'Middle Name',
-			nullInUndefined: true,
-			validateOnChange: true,
-			grid: 'col-span-12',
-			attributes: {
-				placeholder: 'This is a sample input',
-				class: 'w-full',
-			},
-
-			validations: {
-				rules: 'required|min:5',
-				messages: {
-					required: 'This field is required',
-					min: 'Minimum 5 character is required',
-				},
-			},
-		},
-		last_name: {
-			type: 'input',
-			label: 'Last Name',
-			nullInUndefined: true,
-			validateOnChange: true,
-			grid: 'col-span-12',
-			attributes: {
-				placeholder: 'This is a sample input',
-				class: 'w-full',
-			},
-
-			validations: {
-				rules: 'required|min:5',
-				messages: {
-					required: 'This field is required',
-					min: 'Minimum 5 character is required',
-				},
-			},
-		},
-		email: {
-			type: 'input',
-			label: 'Email',
-			nullInUndefined: true,
-			validateOnChange: true,
-			grid: 'lg:col-span-6 md:col-span-6 col-span-12',
-			attributes: {
-				placeholder: 'This is a sample input',
-				class: 'w-full',
-			},
-			validations: {
-				rules: 'required|email',
-				messages: {
-					required: 'This field is required',
-					email: 'Please enter a valid email',
-				},
-			},
-		},
 		gender: {
 			type: 'select',
 			label: 'Select gender',
-			grid: 'lg:col-span-6 md:col-span-6 col-span-12',
+			grid: 'col-span-12',
 			attributes: {
 				placeholder: 'This is a sample input',
 				class: 'w-full',
@@ -212,6 +149,7 @@ const form = reactive<LnForm>({
 					},
 				],
 			},
+			returnObject: true,
 		},
 		users: {
 			type: 'select-menu',
@@ -232,7 +170,7 @@ const form = reactive<LnForm>({
 			},
 			server: {
 				protocol: 'rest',
-				endpoint: 'https://retoolapi.dev/yGHdpo/data',
+				endpoint: '/api/users',
 			},
 			validations: {
 				rules: 'required',
@@ -242,7 +180,7 @@ const form = reactive<LnForm>({
 			},
 		},
 		developers: {
-			type: 'input-menu',
+			type: 'select-menu',
 			label: 'Select Developers',
 			grid: 'col-span-12',
 			nullInUndefined: true,
@@ -261,7 +199,7 @@ const form = reactive<LnForm>({
 			},
 			server: {
 				protocol: 'rest',
-				endpoint: 'https://retoolapi.dev/yGHdpo/data',
+				endpoint: '/api/users',
 			},
 			validations: {
 				rules: 'required|noEmptyArray',
@@ -292,7 +230,7 @@ const form = reactive<LnForm>({
 			},
 			server: {
 				protocol: 'rest',
-				endpoint: 'https://retoolapi.dev/yGHdpo/data',
+				endpoint: '/api/users',
 			},
 			validations: {
 				rules: 'required|noEmptyArray',
@@ -301,180 +239,12 @@ const form = reactive<LnForm>({
 					noEmptyArray: 'Please select at least 1 developer',
 				},
 			},
-		},
-	},
-	forms: {
-		address: {
-			title: 'Address',
-			description: 'This is a sample form for users',
-			fields: {
-				city: {
-					type: 'input',
-					label: 'City',
-					nullInUndefined: true,
-					validateOnChange: true,
-					grid: 'lg:col-span-6 md:col-span-6 col-span-12',
-					attributes: {
-						placeholder: 'This is a sample input',
-						class: 'w-full',
-					},
-					validations: {
-						rules: 'required|min:5',
-						messages: {
-							required: 'This field is required',
-							min: 'Minimum 5 character is required',
-						},
-					},
-				},
-				municipality: {
-					type: 'input',
-					label: 'Municipality',
-					nullInUndefined: true,
-					validateOnChange: true,
-					grid: 'lg:col-span-6 md:col-span-6 col-span-12',
-					attributes: {
-						placeholder: 'This is a sample input',
-						class: 'w-full',
-					},
-
-					validations: {
-						rules: 'required|min:5',
-						messages: {
-							required: 'This field is required',
-							min: 'Minimum 5 character is required',
-						},
-					},
-				},
-				complete_address: {
-					type: 'textarea',
-					label: 'Complete Address',
-					nullInUndefined: true,
-					validateOnChange: true,
-					grid: 'col-span-12',
-					attributes: {
-						placeholder: 'This is a sample input',
-						class: 'w-full',
-					},
-
-					validations: {
-						rules: 'required|min:5',
-						messages: {
-							required: 'This field is required',
-							min: 'Minimum 5 character is required',
-						},
-					},
-				},
-			},
-			variant: 'subtle',
-			ui: {
-				body: 'sm:p-2 p-2',
-				header: 'sm:p-2 p-2',
-				root: 'rounded-sm mt-1',
-			},
-		},
-		referrer: {
-			title: 'Referrer',
-			description: 'This is a sample form for users',
-			fields: {
-				full_name: {
-					type: 'input',
-					label: 'Full Name',
-					nullInUndefined: true,
-					validateOnChange: true,
-					grid: 'lg:col-span-6 md:col-span-6 col-span-12',
-					attributes: {
-						placeholder: 'This is a sample input',
-						class: 'w-full',
-					},
-					validations: {
-						rules: 'required|min:5',
-						messages: {
-							required: 'This field is required',
-							min: 'Minimum 5 character is required',
-						},
-					},
-				},
-				email: {
-					type: 'input',
-					label: 'Email',
-					nullInUndefined: true,
-					validateOnChange: true,
-					grid: 'lg:col-span-6 md:col-span-6 col-span-12',
-					attributes: {
-						placeholder: 'This is a sample input',
-						class: 'w-full',
-					},
-
-					validations: {
-						rules: 'required|email',
-						messages: {
-							required: 'This field is required',
-							email: 'Please provide a valid email',
-						},
-					},
-				},
-				gender: {
-					type: 'select',
-					label: 'Select gender',
-					grid: 'lg:col-span-6 md:col-span-6 col-span-12',
-					attributes: {
-						placeholder: 'This is a sample input',
-						class: 'w-full',
-						defaultValue: 'Male',
-					},
-					dropdown: {
-						type: 'default',
-						items: ['Male', 'Female'],
-					},
-				},
-				status: {
-					type: 'select',
-					label: 'Select Status',
-					grid: 'lg:col-span-6 md:col-span-6 col-span-12',
-					attributes: {
-						placeholder: 'This is a sample input',
-						selectedIcon: 'material-symbols:check-box',
-						class: 'w-full',
-						color: 'success',
-						defaultValue: 1,
-					},
-					dropdown: {
-						type: 'object',
-						labelKey: 'name',
-						valueKey: 'value',
-						items: [
-							{
-								name: 'OPEN',
-								value: 1,
-							},
-							{
-								name: 'CLOSED',
-								value: 2,
-							},
-							{
-								name: 'ACTIVE',
-								value: 3,
-							},
-							{
-								name: 'DISABLED',
-								value: 4,
-							},
-						],
-					},
-				},
-			},
-			variant: 'subtle',
-			ui: {
-				body: 'sm:p-2',
-				header: 'sm:p-2 p-2',
-				root: 'rounded-sm mt-1',
-			},
+			//returnObject: true,
 		},
 	},
 	ui: {
 		body: 'lg:p-2 md:p-2 sm:p-2 p-2',
 		header: 'lg:p-2 md:p-2 sm:p-2 p-2',
-		root: 'rounded-sm',
 	},
 })
 
@@ -485,14 +255,13 @@ function openModal() {
 			uploader: true,
 			attributes: {
 				title: 'LaraNuxt Dynamic Modal',
-				description: 'This is a sample form inside a modal component.',
 				close: true,
 				dismissible: false,
 				ui: {
 					footer: 'sm:p-2 p-2',
 					body: 'xl:p-2 lg:p-2 md:p-2 sm:p-2 p-2',
 					close: 'rounded-full cursor-pointer',
-					content: 'rounded-sm',
+					content: 'rounded-md',
 				},
 			},
 			preview: {
@@ -508,7 +277,7 @@ function openModal() {
 				},
 			},
 		},
-		{},
+		payload,
 		(response: any) => {
 			console.log(response)
 		}
