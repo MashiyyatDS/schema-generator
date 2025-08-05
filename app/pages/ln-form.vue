@@ -252,7 +252,7 @@ function openModal() {
 	useLnModal(
 		{
 			form,
-			uploader: true,
+			//uploader: true,
 			attributes: {
 				title: 'LaraNuxt Dynamic Modal',
 				close: true,

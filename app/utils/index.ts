@@ -30,3 +30,9 @@ export function deepGet(nestedKey: string, payload: Record<string, any>) {
 		return undefined
 	}, payload)
 }
+
+export function generateRandom6DigitNumber(): number {
+	const min = 100000 // Minimum 6-digit number
+	const max = 999999 // Maximum 6-digit number
+	return Math.floor(Math.random() * (max - min + 1) + min)
+}

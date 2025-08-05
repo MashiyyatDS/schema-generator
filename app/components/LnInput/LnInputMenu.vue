@@ -1,5 +1,8 @@
 <template>
+	<USkeleton v-if="pending" class="h-8 w-full" />
+
 	<UInputMenu
+		v-else
 		v-model="select.value"
 		:items="select.dropdown.items"
 		v-bind="select.attributes"
@@ -31,7 +34,7 @@ onMounted(async () => {
 })
 
 const { pending, execute } = useAsyncData(
-	'get-items',
+	`get-items-${generateRandom6DigitNumber()}`,
 	async () => {
 		if (select.value?.server && select.value?.server.protocol === 'rest') {
 			const items: Record<string, any>[] = await $fetch(select.value.server.endpoint)
