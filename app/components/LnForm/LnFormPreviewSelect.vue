@@ -1,8 +1,8 @@
 <template>
 	<UCard
 		:ui="{
-			body: 'xl:p-1 lg:p-1 md:p-1 sm:p-1 p-1',
-			header: 'xl:p-1 lg:p-1 md:p-1 sm:p-1 p-1',
+			body: 'xl:p-2 lg:p-2 md:p-2 sm:p-2 p-2',
+			header: 'xl:p-2 lg:p-2 md:p-2 sm:p-2 p-2 text-sm',
 		}"
 		class="rounded mb-1">
 		<template
@@ -18,6 +18,15 @@
 					:key="key"
 					class="mr-1 mb-1"
 					:label="item" />
+
+				<UCard
+					v-if="!selectedItems?.length"
+					:ui="{ root: 'flex justify-center p-1 rounded-sm' }"
+					variant="subtle">
+					<span class="text-sm self-center">
+						No {{ convertStringCases(fieldName).regular.toLowerCase() }} selected
+					</span>
+				</UCard>
 			</div>
 
 			<div v-else class="flex justify-between">
@@ -30,7 +39,7 @@
 		</template>
 
 		<div v-else class="flex justify-between">
-			<span>{{ convertStringCases(fieldName).regular }}</span>
+			<span class="text-sm">{{ convertStringCases(fieldName).regular }}</span>
 
 			<span class="text-sm text-green-400 font-bold">{{ selectedItems }}</span>
 		</div>
@@ -71,25 +80,25 @@ const selectedItems = computed(() => {
 				.map((item) => (typeof item === 'object' ? item[labelKey] : item))
 
 			return items
+		} else {
+			const items = props.select.dropdown?.items
+				?.filter((item) => {
+					if (typeof item === 'object') {
+						return typeof modelValue === 'object'
+							? modelValue[valueKey] === item[valueKey]
+							: modelValue === item[valueKey]
+					} else {
+						return typeof modelValue === 'object'
+							? modelValue[valueKey] === item
+							: modelValue === item
+					}
+				})
+				.map((item) => (typeof item === 'object' ? item[labelKey] : item))
+
+			return items
 		}
-
-		const items = props.select.dropdown?.items
-			?.filter((item) => {
-				if (typeof item === 'object') {
-					return typeof modelValue === 'object'
-						? modelValue[valueKey] === item[valueKey]
-						: modelValue === item[valueKey]
-				} else {
-					return typeof modelValue === 'object'
-						? modelValue[valueKey] === item
-						: modelValue === item
-				}
-			})
-			.map((item) => (typeof item === 'object' ? item[labelKey] : item))
-
-		return items
+	} else {
+		return modelValue
 	}
-
-	return props.select.value
 })
 </script>

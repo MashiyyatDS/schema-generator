@@ -23,7 +23,7 @@ const payload = reactive({
 	email: 'delossantos.mash@gmail.com',
 	gender: 'Female',
 	status: {
-		name: 'CLOSED',
+		name: 'OPEN',
 		value: 1,
 	},
 	users: [
@@ -179,13 +179,15 @@ const form = reactive<LnForm>({
 		status: {
 			type: 'select',
 			label: 'Select Status',
-			grid: 'lg:col-span-6 md:col-span-6 col-span-12',
+			grid: 'col-span-12',
 			attributes: {
 				placeholder: 'This is a sample input',
 				selectedIcon: 'material-symbols:check-box',
 				class: 'w-full',
 				color: 'success',
-				defaultValue: 0,
+				defaultValue: 1,
+				labelKey: 'name',
+				valueKey: 'value',
 			},
 			dropdown: {
 				type: 'object',
@@ -194,32 +196,34 @@ const form = reactive<LnForm>({
 				items: [
 					{
 						name: 'OPEN',
-						value: 0,
-					},
-					{
-						name: 'CLOSED',
 						value: 1,
 					},
 					{
-						name: 'ACTIVE',
+						name: 'CLOSED',
 						value: 2,
 					},
 					{
-						name: 'DISABLED',
+						name: 'ACTIVE',
 						value: 3,
+					},
+					{
+						name: 'DISABLED',
+						value: 4,
 					},
 				],
 			},
 		},
 		users: {
-			type: 'select',
+			type: 'select-menu',
 			label: 'Select User',
-			grid: 'lg:col-span-6 md:col-span-6 col-span-12',
+			grid: 'col-span-12',
 			nullInUndefined: true,
 			attributes: {
 				multiple: true,
 				placeholder: 'This is a sample input',
 				class: 'w-full',
+				labelKey: 'name',
+				valueKey: 'id',
 			},
 			dropdown: {
 				type: 'object',
@@ -238,7 +242,7 @@ const form = reactive<LnForm>({
 			},
 		},
 		developers: {
-			type: 'select-menu',
+			type: 'input-menu',
 			label: 'Select Developers',
 			grid: 'col-span-12',
 			nullInUndefined: true,
@@ -248,6 +252,7 @@ const form = reactive<LnForm>({
 				class: 'w-full',
 				multiple: true,
 				valueKey: 'id',
+				labelKey: 'name',
 			},
 			dropdown: {
 				type: 'object',
@@ -274,9 +279,11 @@ const form = reactive<LnForm>({
 			validateOnChange: true,
 			attributes: {
 				placeholder: 'This is a sample input',
+				deleteIcon: 'i-lucide-trash',
 				class: 'w-full',
 				multiple: true,
 				valueKey: 'id',
+				labelKey: 'name',
 			},
 			dropdown: {
 				type: 'object',
@@ -406,6 +413,55 @@ const form = reactive<LnForm>({
 						},
 					},
 				},
+				gender: {
+					type: 'select',
+					label: 'Select gender',
+					grid: 'lg:col-span-6 md:col-span-6 col-span-12',
+					attributes: {
+						placeholder: 'This is a sample input',
+						class: 'w-full',
+						defaultValue: 'Male',
+					},
+					dropdown: {
+						type: 'default',
+						items: ['Male', 'Female'],
+					},
+				},
+				status: {
+					type: 'select',
+					label: 'Select Status',
+					grid: 'lg:col-span-6 md:col-span-6 col-span-12',
+					attributes: {
+						placeholder: 'This is a sample input',
+						selectedIcon: 'material-symbols:check-box',
+						class: 'w-full',
+						color: 'success',
+						defaultValue: 1,
+					},
+					dropdown: {
+						type: 'object',
+						labelKey: 'name',
+						valueKey: 'value',
+						items: [
+							{
+								name: 'OPEN',
+								value: 1,
+							},
+							{
+								name: 'CLOSED',
+								value: 2,
+							},
+							{
+								name: 'ACTIVE',
+								value: 3,
+							},
+							{
+								name: 'DISABLED',
+								value: 4,
+							},
+						],
+					},
+				},
 			},
 			variant: 'subtle',
 			ui: {
@@ -418,7 +474,7 @@ const form = reactive<LnForm>({
 	ui: {
 		body: 'lg:p-2 md:p-2 sm:p-2 p-2',
 		header: 'lg:p-2 md:p-2 sm:p-2 p-2',
-		root: 'rounded-sm border-none',
+		root: 'rounded-none',
 	},
 })
 
@@ -437,6 +493,7 @@ function openModal() {
 					body: 'sm:p-2 p-2',
 					header: 'sm:p-2 p-2',
 					close: 'rounded-full cursor-pointer',
+					content: 'rounded-sm',
 				},
 			},
 			preview: {
@@ -452,7 +509,7 @@ function openModal() {
 				},
 			},
 		},
-		payload,
+		{},
 		(response: any) => {
 			console.log(response)
 		}

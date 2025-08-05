@@ -1,7 +1,7 @@
 <template>
 	<USelect
 		v-model="select.value"
-		:items="items"
+		:items="select.dropdown.items"
 		v-bind="select.attributes"
 		@update:model-value="$emit('valueChanges')" />
 </template>
@@ -28,18 +28,4 @@ onMounted(async () => {
 		}
 	}
 })
-
-const items = computed(() => {
-	if (select.value.dropdown.type === 'object') {
-		const labelKey = select.value.dropdown.labelKey
-		const valueKey = select.value.dropdown.valueKey
-
-		return select.value.dropdown.items?.map((item) => ({
-			label: item[labelKey],
-			value: item[valueKey],
-		}))
-	}
-
-	return select.value.dropdown.items
-}) as ComputedRef<string[] | { label: string; value: string }[]>
 </script>

@@ -1,7 +1,7 @@
 <template>
 	<UInputMenu
 		v-model="select.value"
-		:items="items"
+		:items="select.dropdown.items"
 		v-bind="select.attributes"
 		@update:model-value="$emit('valueChanges')"
 		@update:search-term="searchItem" />
@@ -29,20 +29,6 @@ onMounted(async () => {
 		}
 	}
 })
-
-const items = computed(() => {
-	if (select.value.dropdown.type === 'object') {
-		const labelKey = select.value.dropdown.labelKey
-		const valueKey = select.value.dropdown.valueKey
-
-		return select.value.dropdown.items?.map((item) => ({
-			label: item[labelKey],
-			[valueKey]: item[valueKey],
-		}))
-	}
-
-	return select.value.dropdown.items
-}) as ComputedRef<string[] | { label: string; value: string }[]>
 
 function searchItem(event: string) {
 	console.log(event)

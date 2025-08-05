@@ -23,6 +23,11 @@ export default function (input: LnInput) {
 
 				break
 
+			case 'input-menu':
+				setSelectInput(input, value)
+
+				break
+
 			case 'calendar-input':
 				break
 
@@ -33,7 +38,10 @@ export default function (input: LnInput) {
 		}
 	}
 
-	function setSelectInput(select: LnInputSelect | LnInputSelectMenu, value: unknown | any) {
+	function setSelectInput(
+		select: LnInputSelect | LnInputSelectMenu | LnInputMenu,
+		value: unknown | any
+	) {
 		/**
 		 * value: {name: "OPEN", value: 1}
 		 * value: [{name: "OPEN", value: 1}, {name: "CLOSED", value: 2}]
@@ -54,7 +62,7 @@ export default function (input: LnInput) {
 			select.value = value
 		}
 
-		select.trueValue = value
+		//select.trueValue = value
 	}
 
 	const resetValue = () => {
