@@ -3,11 +3,14 @@
 		v-model="select.value"
 		:items="items"
 		v-bind="select.attributes"
+		@update:model-value="$emit('valueChanges')"
 		@update:search-term="searchItem" />
 </template>
 
 <script setup lang="ts">
 import type { LnInputSelectMenu } from '~/types/laranuxt/LnInput'
+
+defineEmits(['valueChanges'])
 
 const select = defineModel<LnInputSelectMenu>({
 	required: true,

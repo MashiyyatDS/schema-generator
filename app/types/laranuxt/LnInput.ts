@@ -102,6 +102,7 @@ export interface LnInputSelect<M = string> extends LnInputBaseInterface {
 	attributes: SelectProps | Record<string, unknown>
 	server?: ServerMethod
 	dropdown: ObjectDropdown<M> | StringDropdown
+	trueValue?: unknown[]
 }
 
 export interface LnInputSelectMenu extends LnInputBaseInterface {
@@ -109,6 +110,7 @@ export interface LnInputSelectMenu extends LnInputBaseInterface {
 	attributes: (SelectMenuProps & { valueKey: string }) | Record<string, unknown>
 	server?: ServerMethod
 	dropdown: ObjectDropdown | StringDropdown
+	trueValue?: unknown[]
 }
 
 export interface LnInputDefault extends LnInputBaseInterface {

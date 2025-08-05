@@ -53,6 +53,8 @@ export default function (input: LnInput) {
 		} else {
 			select.value = value
 		}
+
+		select.trueValue = value
 	}
 
 	const resetValue = () => {

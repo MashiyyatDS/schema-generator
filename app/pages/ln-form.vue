@@ -222,6 +222,7 @@ const form = reactive<LnForm>({
 			label: 'Select Developers',
 			grid: 'col-span-12',
 			nullInUndefined: true,
+			validateOnChange: true,
 			attributes: {
 				placeholder: 'This is a sample input',
 				class: 'w-full',
@@ -238,9 +239,10 @@ const form = reactive<LnForm>({
 				endpoint: 'https://retoolapi.dev/yGHdpo/data',
 			},
 			validations: {
-				rules: 'required',
+				rules: 'required|noEmptyArray',
 				messages: {
 					required: 'Please select a user',
+					noEmptyArray: 'Please select at least 1 developer',
 				},
 			},
 		},

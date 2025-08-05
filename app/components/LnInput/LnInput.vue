@@ -44,7 +44,10 @@
 
 			<LnInputSelect v-if="lnInput.type === 'select'" :model-value="lnInput" />
 
-			<LnInputSelectMenu v-if="lnInput.type === 'select-menu'" :model-value="lnInput" />
+			<LnInputSelectMenu
+				v-if="lnInput.type === 'select-menu'"
+				:model-value="lnInput"
+				@value-changes="onValueUpdated" />
 
 			<LnInputRadioGroup v-if="lnInput.type === 'radio-group'" :model-value="lnInput" />
 
