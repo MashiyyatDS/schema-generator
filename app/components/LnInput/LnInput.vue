@@ -66,6 +66,6 @@ const lnInput = defineModel<LnInput>({
 })
 
 function onValueUpdated() {
-	if (lnInput.value.validateOnChange) useLnInput(lnInput.value).validateValue('field')
+	if (lnInput.value.validateOnChange) useLnInput.validate(lnInput.value, 'field')
 }
 </script>

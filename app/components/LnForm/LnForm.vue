@@ -21,7 +21,7 @@
 <script setup lang="ts">
 const form = defineModel<LnForm>({ required: true })
 
-const formData = computed(() => useLnForm.getValue(form.value))
+const formData = computed(() => useLnForm.get(form.value))
 
 defineExpose({
 	formData,

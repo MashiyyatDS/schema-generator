@@ -56,7 +56,7 @@ const props = withDefaults(
 )
 
 const selectedItems = computed(() => {
-	const modelValue = useLnInput(props.select).getValue()
+	const modelValue = useLnInput.get(props.select)
 
 	if (!modelValue || (Array.isArray(modelValue) && !modelValue.length)) return []
 

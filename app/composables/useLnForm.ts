@@ -1,14 +1,14 @@
 class UseLnForm {
-	getValue(lnForm: LnForm) {
+	get(lnForm: LnForm) {
 		const data: Record<string, any> = {}
 
 		Object.entries(lnForm.fields).map(([key, field]) => {
-			data[key] = useLnInput(field).getValue()
+			data[key] = useLnInput.get(field)
 		})
 
 		if (lnForm?.forms) {
 			Object.entries(lnForm?.forms).map(([key, fForm]) => {
-				const formValue = this.getValue(fForm)
+				const formValue = this.get(fForm)
 				data[key] = formValue
 			})
 		}
@@ -16,20 +16,20 @@ class UseLnForm {
 		return data
 	}
 
-	setFormData(lnForm: LnForm, payload: Record<string, any>) {
+	set(lnForm: LnForm, payload: Record<string, any>) {
 		for (const [key, field] of Object.entries(lnForm.fields)) {
-			if (payload[key]) useLnInput(field).setValue(payload[key])
+			if (payload[key]) useLnInput.set(field, payload[key])
 		}
 
 		if (lnForm.forms) {
 			Object.entries(lnForm.forms).map(([key, fForm]) => {
-				if (payload[key]) this.setFormData(fForm, payload[key])
+				if (payload[key]) this.set(fForm, payload[key])
 			})
 		}
 	}
 
 	reset(lnForm: LnForm) {
-		Object.values(lnForm.fields).map((field) => useLnInput(field).resetValue())
+		Object.values(lnForm.fields).map((field) => useLnInput.reset(field))
 
 		if (lnForm.forms) {
 			Object.values(lnForm.forms).map((form) => this.reset(form))
@@ -53,7 +53,7 @@ class UseLnForm {
 
 		const results = await Promise.all(
 			allFields.map(async (field) => {
-				const { isValid } = await useLnInput(field).validateValue('field')
+				const { isValid } = await useLnInput.validate(field, 'field')
 				return { field, isValid }
 			})
 		)

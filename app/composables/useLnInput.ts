@@ -1,7 +1,12 @@
 import { validate } from 'robust-validator'
 
-export default function (input: LnInput) {
-	function getValue() {
+export class UseLnInput {
+	/**
+	 * use UseLnInput.get to retrieve the input model value.
+	 *
+	 * @params input: LnInput
+	 */
+	get(input: LnInput) {
 		return input?.value
 			? input.value
 			: input?.nullInUndefined
@@ -11,20 +16,26 @@ export default function (input: LnInput) {
 			: undefined
 	}
 
-	function setValue(value: unknown | any) {
+	/**
+	 * use UseLnInput.get to set the input model value.
+	 *
+	 * @params input: LnInput
+	 * @params value - value to assign inside the input model value.
+	 */
+	set(input: LnInput, value: unknown) {
 		switch (input.type) {
 			case 'select':
-				setSelectInput(input, value)
+				this.setSelectInput(input, value)
 
 				break
 
 			case 'select-menu':
-				setSelectInput(input, value)
+				this.setSelectInput(input, value)
 
 				break
 
 			case 'input-menu':
-				setSelectInput(input, value)
+				this.setSelectInput(input, value)
 
 				break
 
@@ -38,7 +49,7 @@ export default function (input: LnInput) {
 		}
 	}
 
-	function setSelectInput(
+	protected setSelectInput(
 		select: LnInputSelect | LnInputSelectMenu | LnInputMenu,
 		value: unknown | any
 	) {
@@ -68,7 +79,12 @@ export default function (input: LnInput) {
 		}
 	}
 
-	const resetValue = () => {
+	/**
+	 * use UseLnInput.reset to reset the input model value.
+	 *
+	 * @params input: LnInput
+	 */
+	reset(input: LnInput) {
 		const undefinedNull = input?.nullInUndefined ? null : undefined
 
 		input.value =
@@ -77,7 +93,13 @@ export default function (input: LnInput) {
 		input.errors = undefined
 	}
 
-	const validateValue = async (fieldName: string) => {
+	/**
+	 * use UseLnInput.validate to validate the input model value.
+	 * Ensure to provide a validation property inside your input property.
+	 *
+	 * @params input: LnInput
+	 */
+	async validate(input: LnInput, fieldName: string) {
 		if (!input.validations) return { isValid: true }
 
 		const result = await validate(
@@ -93,11 +115,7 @@ export default function (input: LnInput) {
 
 		return result
 	}
-
-	return {
-		getValue,
-		setValue,
-		resetValue,
-		validateValue,
-	}
 }
+
+const useLnInput = new UseLnInput()
+export default useLnInput

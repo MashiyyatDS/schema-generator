@@ -99,7 +99,7 @@ async function validateForm() {
 	if (props.callback) {
 		props.callback({
 			...(modal.value?.uploader ? { uploads: uploads.value } : {}),
-			...(modal.value?.form ? useLnForm.getValue(modal.value.form) : {}),
+			...(modal.value?.form ? useLnForm.get(modal.value.form) : {}),
 		})
 	}
 

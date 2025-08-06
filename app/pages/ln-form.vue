@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 const payload = reactive({
-	first_name: 'Mashiyyat Delos Santos',
+	full_name: 'Mashiyyat Delos Santos',
 	email: 'delossantos.mash@gmail.com',
 	gender: 'Female',
 	status: 1,
