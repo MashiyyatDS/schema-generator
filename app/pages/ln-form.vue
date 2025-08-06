@@ -1,21 +1,43 @@
 <template>
-	<div class="p-2">
-		<UButtonGroup>
-			<UButton class="cursor-pointer" label="Modal" @click="openModal" />
+	<div class="w-screen h-screen flex flex-col gap-1 justify-center">
+		<div class="flex gap-1 self-center">
+			<UButton
+				class="cursor-pointer rounded-sm"
+				label="Modal"
+				icon="lineicons:dialogflow"
+				@click="openModal" />
 
-			<UButton class="cursor-pointer" label="Reset" @click="useLnForm.reset(form)" />
+			<UButton
+				class="cursor-pointer"
+				label="Reset"
+				icon="material-symbols:reset-wrench"
+				@click="useLnForm.reset(form)" />
 
-			<UButton class="cursor-pointer" label="Validate" @click="useLnForm.validate(form)" />
+			<UButton
+				class="cursor-pointer"
+				label="Validate"
+				icon="material-symbols:person-check-rounded"
+				@click="useLnForm.validate(form)" />
+		</div>
 
-			<LnExport v-for="fileType in ['pdf', 'csv']" :key="fileType" :export="exportFile">
+		<div class="self-center flex gap-1">
+			<LnExport
+				v-for="(exporter, key) in [
+					{ type: 'pdf', icon: 'ant-design:file-pdf-filled' },
+					{ type: 'csv', icon: 'file-icons:microsoft-excel' },
+				]"
+				:key="key"
+				:export="exportFile">
 				<template #default="{ exportFile: startExporting, pending }">
 					<UButton
-						:label="`Export  ${fileType.toUpperCase()}`"
+						class="cursor-pointer rounded-sm"
+						:label="`Export ${exporter.type.toUpperCase()}`"
+						:icon="exporter.icon"
 						:loading="pending"
-						@click="startExporting(fileType)" />
+						@click="startExporting(exporter.type)" />
 				</template>
 			</LnExport>
-		</UButtonGroup>
+		</div>
 	</div>
 </template>
 
