@@ -61,7 +61,7 @@ export interface LnInputBaseInterface {
 	 */
 	nullInUndefined?: boolean
 	/**
-	 * Allow validating the input field whenever the data value changes.
+	 * #### Allow validating the input field whenever the data value changes.
 	 */
 	validateOnChange?: boolean
 	validations?: {
@@ -107,6 +107,12 @@ export interface LnInputMenu extends LnInputBaseInterface {
 	attributes: InputMenuProps | Record<string, unknown>
 	server?: ServerMethod
 	dropdown: ObjectDropdown | StringDropdown
+	/**
+	 * #### Set the `returnObject` into true to allow the input to return the item object property.
+	 * - ensure to remove the `valueKey` inside attribute property.
+	 * - ensure to add `labelKey` inside the attribute property for items` label.
+	 * - input model value should be an `object` otherwise it will return its original value.
+	 */
 	returnObject?: boolean
 }
 
@@ -115,6 +121,11 @@ export interface LnInputSelect extends LnInputBaseInterface {
 	attributes: SelectProps | Record<string, unknown>
 	server?: ServerMethod
 	dropdown: ObjectDropdown | StringDropdown
+	/**
+	 * #### Set the `returnObject` into true to allow the input to return the item object property.
+	 *  - ensure to remove the `valueKey` inside attribute property.
+	 *  - ensure to add `labelKey` inside the attribute property for items` label.
+	 */
 	returnObject?: boolean
 }
 
@@ -123,6 +134,11 @@ export interface LnInputSelectMenu extends LnInputBaseInterface {
 	attributes: SelectMenuProps | Record<string, unknown>
 	server?: ServerMethod
 	dropdown: ObjectDropdown | StringDropdown
+	/**
+	 * #### Set the `returnObject` into true to allow the input to return the item object property.
+	 *  - ensure to remove the `valueKey` inside attribute property.
+	 *  - ensure to add `labelKey` inside the attribute property for items` label.
+	 */
 	returnObject?: boolean
 }
 export interface LnInputTextarea extends LnInputBaseInterface {

@@ -6,11 +6,55 @@
 			<UButton class="cursor-pointer" label="Reset" @click="useLnForm.reset(form)" />
 
 			<UButton class="cursor-pointer" label="Validate" @click="useLnForm.validate(form)" />
+
+			<LnExport v-for="fileType in ['pdf', 'csv']" :key="fileType" :export="exportFile">
+				<template #default="{ exportFile: startExporting, pending }">
+					<UButton
+						:label="`Export  ${fileType.toUpperCase()}`"
+						:loading="pending"
+						@click="startExporting(fileType)" />
+				</template>
+			</LnExport>
 		</UButtonGroup>
 	</div>
 </template>
 
 <script setup lang="ts">
+import type { LnExport } from '~/types/laranuxt/LnForm'
+
+const exportFile = reactive<LnExport>({
+	headers: [
+		{
+			label: 'Full Name',
+			valueKey: 'full_name',
+			formatter: (user: { first_name: string; last_name: string }) => {
+				return `${user.first_name} ${user.last_name}`
+			},
+		},
+		{
+			label: 'Email Address',
+			valueKey: 'email',
+		},
+		{
+			label: 'Birthdate',
+			valueKey: 'birthdate',
+		},
+		{
+			label: 'Zip Code',
+			valueKey: 'address.zip_code',
+		},
+		{
+			label: 'Complete Location',
+			valueKey: 'address.complete_location',
+		},
+	],
+	label: 'Export users',
+	server: {
+		protocol: 'rest',
+		endpoint: '/api/users',
+	},
+})
+
 const payload = reactive({
 	full_name: 'Mashiyyat Delos Santos',
 	email: 'delossantos.mash@gmail.com',
@@ -71,26 +115,7 @@ const payload = reactive({
 			address: 'Lubbock, Texas, United States',
 		},
 	],
-	customers: [
-		{
-			id: 5,
-			name: 'Brewer Rogeon',
-			email: 'fegdalej@infoseek.co.jp',
-			address: 'Denton, Texas, United States',
-		},
-		{
-			id: 6,
-			name: 'Krishna Spellissy',
-			email: 'idrains4u@google.com.hk',
-			address: 'New Braunfels, Texas, United States',
-		},
-		{
-			id: 7,
-			name: 'Filippa Cunliffe',
-			email: 'prawlingson4w@phoca.cz',
-			address: 'Lubbock, Texas, United States',
-		},
-	],
+	customers: [5, 6, 7],
 })
 
 const form = reactive<LnForm>({
@@ -177,12 +202,12 @@ const form = reactive<LnForm>({
 				multiple: true,
 				placeholder: 'This is a sample input',
 				class: 'w-full',
-				labelKey: 'name',
+				labelKey: 'email',
 				valueKey: 'id',
 			},
 			dropdown: {
 				type: 'object',
-				labelKey: 'name',
+				labelKey: 'email',
 				valueKey: 'id',
 			},
 			server: {
@@ -207,11 +232,11 @@ const form = reactive<LnForm>({
 				class: 'w-full',
 				multiple: true,
 				valueKey: 'id',
-				labelKey: 'name',
+				labelKey: 'email',
 			},
 			dropdown: {
 				type: 'object',
-				labelKey: 'name',
+				labelKey: 'email',
 				valueKey: 'id',
 			},
 			server: {
@@ -235,14 +260,13 @@ const form = reactive<LnForm>({
 			attributes: {
 				placeholder: 'This is a sample input',
 				deleteIcon: 'i-lucide-trash',
-				class: 'w-full',
 				multiple: true,
-				//valueKey: 'id',
-				labelKey: 'name',
+				valueKey: 'id',
+				labelKey: 'email',
 			},
 			dropdown: {
 				type: 'object',
-				labelKey: 'name',
+				labelKey: 'email',
 				valueKey: 'id',
 			},
 			server: {
@@ -256,7 +280,6 @@ const form = reactive<LnForm>({
 					noEmptyArray: 'Please select at least 1 developer',
 				},
 			},
-			returnObject: true,
 		},
 	},
 	ui: {
@@ -269,7 +292,6 @@ function openModal() {
 	useLnModal(
 		{
 			form,
-			uploader: true,
 			attributes: {
 				title: 'LaraNuxt Dynamic Modal',
 				close: true,

@@ -28,3 +28,29 @@ export type LnModal = {
 	uploader?: boolean
 	preview?: LnFormPreview
 }
+
+export type LnExport = {
+	label?: string
+	headers: {
+		label: string
+		valueKey: string
+		formatter?: (valueKey: any) => string
+	}[]
+	server:
+		| {
+				protocol: 'graphql'
+				model: string
+				method?: string
+				gql?: any
+				fetchPolicy?:
+					| 'cache-first'
+					| 'cache-and-network'
+					| 'cache-only'
+					| 'network-only'
+					| 'no-cache'
+		  }
+		| {
+				protocol: 'rest'
+				endpoint: string
+		  }
+}
