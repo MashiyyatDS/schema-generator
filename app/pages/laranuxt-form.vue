@@ -4,7 +4,10 @@
 	<div class="flex gap-1">
 		<UButton class="cursor-pointer" label="Get form value" @click="getFormValue" />
 
-		<UButton class="cursor-pointer" label="Set form value" @click="useLnForm.setFormData(form, serverData)" />
+		<UButton
+			class="cursor-pointer"
+			label="Set form value"
+			@click="useLnForm.set(form, serverData)" />
 
 		<UButton class="cursor-pointer" label="Validate" @click="useLnForm.validate(form)" />
 
@@ -296,7 +299,7 @@ const serverData = reactive({
 })
 
 function getFormValue() {
-	const formData = useLnForm.getValue(form)
+	const formData = useLnForm.get(form)
 
 	console.log(formData, 'Working...')
 }

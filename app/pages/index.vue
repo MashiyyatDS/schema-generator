@@ -7,18 +7,38 @@
 		<div class="w-full max-w-[1280px] self-center">
 			<UStepper ref="stepper" :items="items">
 				<template #content="{ item }">
-					<ModelAndFields v-show="item.title === 'Model & Fields'" ref="modelAndFields" :model-value="modelFields" />
+					<ModelAndFields
+						v-show="item.title === 'Model & Fields'"
+						ref="modelAndFields"
+						:model-value="modelFields" />
 
-					<DatabaseMigrations v-show="item.title === 'Database Migrations'" ref="databaseMigrations" :model-value="modelFields" />
+					<DatabaseMigrations
+						v-show="item.title === 'Database Migrations'"
+						ref="databaseMigrations"
+						:model-value="modelFields" />
 
-					<UButton v-if="item.title === 'Confirm'" label="Generate Files" size="xl" @click="startGenerate" />
+					<UButton
+						v-if="item.title === 'Confirm'"
+						label="Generate Files"
+						size="xl"
+						@click="startGenerate" />
 				</template>
 			</UStepper>
 
 			<div class="flex gap-2 justify-between mt-4">
-				<UButton leading-icon="i-lucide-arrow-left" :disabled="!stepper?.hasPrev" @click="stepper?.prev()"> Prev </UButton>
+				<UButton
+					leading-icon="i-lucide-arrow-left"
+					:disabled="!stepper?.hasPrev"
+					@click="stepper?.prev()">
+					Prev
+				</UButton>
 
-				<UButton trailing-icon="i-lucide-arrow-right" :disabled="!stepper?.hasNext" @click="stepper?.next()"> Next </UButton>
+				<UButton
+					trailing-icon="i-lucide-arrow-right"
+					:disabled="!stepper?.hasNext"
+					@click="stepper?.next()">
+					Next
+				</UButton>
 			</div>
 		</div>
 	</div>
@@ -75,7 +95,12 @@ const modelAndFields = ref<any>(null)
 const databaseMigrations = ref<any>(null)
 
 async function startGenerate() {
-	await generateFiles('generated/Model', convertStringCases(modelFields.name).pascal, 'php', modelAndFields.value.codePreview)
+	await generateFiles(
+		'generated/Model',
+		convertStringCases(modelFields.name).pascal,
+		'php',
+		modelAndFields.value.codePreview
+	)
 	await generateFiles(
 		'generated/migrations',
 		`${Date.now()}_create_${pluralize(convertStringCases(modelFields.name).snake)}_table`,

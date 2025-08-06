@@ -323,7 +323,8 @@ function openModal() {
 	)
 }
 
-definePageMeta({
-	layout: 'default',
-})
+const formValue = computed(() => useLnForm.get(form))
+watch(formValue, () => console.log('Form Value Changed'))
+
+definePageMeta({ layout: 'default' })
 </script>
