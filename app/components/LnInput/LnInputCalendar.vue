@@ -21,7 +21,6 @@
 
 <script setup lang="ts">
 import { DateFormatter, getLocalTimeZone } from '@internationalized/date'
-import type { LnInputCalendar } from '~/types/laranuxt/LnInput'
 
 const df = new DateFormatter('en-US', { dateStyle: 'full' })
 

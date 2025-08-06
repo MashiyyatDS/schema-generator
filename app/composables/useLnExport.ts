@@ -1,7 +1,7 @@
-import * as XLSX from 'xlsx'
-import { saveAs } from 'file-saver'
-import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
+import { saveAs } from 'file-saver'
+import * as XLSX from 'xlsx'
+import jsPDF from 'jspdf'
 
 export class UseLnExport {
 	exportPdf(items: Record<string, any>[], columns: { header: string; dataKey: string }[]) {
@@ -30,7 +30,7 @@ export class UseLnExport {
 		}
 	}
 
-	s2ab(s: string) {
+	private s2ab(s: string) {
 		const buf = new ArrayBuffer(s.length)
 		const view = new Uint8Array(buf)
 		for (let i = 0; i < s.length; i++) {

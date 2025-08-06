@@ -9,6 +9,8 @@ import type { SelectProps } from '@nuxt/ui/components/Select.vue'
 import type { SwitchProps } from '@nuxt/ui/components/Switch.vue'
 import type { SliderProps } from '@nuxt/ui/components/Slider.vue'
 import type { InputProps } from '@nuxt/ui/components/Input.vue'
+import type { ModalProps } from '@nuxt/ui/components/Modal.vue'
+import type { CardProps } from '@nuxt/ui/components/Card.vue'
 
 export interface LnInputBaseInterface {
 	type:
@@ -85,16 +87,16 @@ interface GraphQLProtocol {
 
 type ServerMethod = RestProtocol | GraphQLProtocol
 
-interface ObjectDropdown<M = string> {
+interface ObjectDropdown {
 	type: 'object'
-	valueKey: M extends string ? string : keyof M
-	labelKey: M extends string ? string : keyof M
-	items?: M extends string ? Record<string, unknown>[] : { [K in keyof M]?: unknown }[]
+	valueKey: string
+	labelKey: string
+	items?: Record<string, unknown>[]
 }
 
 interface StringDropdown {
 	type: 'default'
-	items: string[]
+	items: any[]
 }
 
 export interface LnInputDefault extends LnInputBaseInterface {
@@ -141,6 +143,7 @@ export interface LnInputSelectMenu extends LnInputBaseInterface {
 	 */
 	returnObject?: boolean
 }
+
 export interface LnInputTextarea extends LnInputBaseInterface {
 	type: 'textarea'
 	attributes: TextareaProps | Record<string, unknown>
@@ -171,13 +174,16 @@ export interface LnInputSlider extends LnInputBaseInterface {
 	attributes: SliderProps | Record<string, unknown>
 }
 
-export interface LnInputRadioGroup<M = string> extends LnInputBaseInterface {
+export interface LnInputRadioGroup extends LnInputBaseInterface {
 	type: 'radio-group'
 	attributes: RadioGroupProps | Record<string, unknown>
 	server?: ServerMethod
-	dropdown: (ObjectDropdown<M> & { descriptionKey?: string }) | StringDropdown
+	dropdown: (ObjectDropdown & { descriptionKey?: string }) | StringDropdown
 }
 
+/**
+ * ==================== LnInput ====================
+ */
 export type LnInput =
 	| LnInputDefault
 	| LnInputSelect
@@ -190,3 +196,66 @@ export type LnInput =
 	| LnInputSlider
 	| LnInputMenu
 	| LnInputRadioGroup
+
+/**
+ * ==================== LnForm ====================
+ */
+export type LnForm = {
+	title?: string
+	description?: string
+	fields: Record<string, LnInput>
+	forms?: Record<string, LnForm>
+	ui?: {
+		body?: string
+		header?: string
+		footer?: string
+		root?: string
+	}
+	variant?: 'outline' | 'soft' | 'solid' | 'subtle'
+}
+
+export type LnFormPreview = {
+	title: string
+	description?: string
+	icon?: string
+	attributes?: CardProps
+}
+
+/**
+ * ==================== LnModal ====================
+ */
+export type LnModal = {
+	attributes?: ModalProps
+	form?: LnForm
+	uploader?: boolean
+	preview?: LnFormPreview
+}
+
+/**
+ * ==================== LnExport ====================
+ */
+export type LnExport = {
+	label?: string
+	headers: {
+		label: string
+		valueKey: string
+		formatter?: (valueKey: any) => string
+	}[]
+	server:
+		| {
+				protocol: 'graphql'
+				model: string
+				method?: string
+				gql?: any
+				fetchPolicy?:
+					| 'cache-first'
+					| 'cache-and-network'
+					| 'cache-only'
+					| 'network-only'
+					| 'no-cache'
+		  }
+		| {
+				protocol: 'rest'
+				endpoint: string
+		  }
+}

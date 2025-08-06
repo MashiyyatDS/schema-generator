@@ -68,7 +68,7 @@ const selectedItems = computed(() => {
 			const isObjectArray = modelValue.every((mValue) => typeof mValue === 'object')
 
 			const items = props.select.dropdown?.items
-				?.filter((item) => {
+				?.filter((item: Record<string, unknown> | string) => {
 					const modelItems = isObjectArray
 						? modelValue.map((mValue) => mValue[valueKey])
 						: modelValue
@@ -77,12 +77,14 @@ const selectedItems = computed(() => {
 						? modelItems.includes(item[valueKey])
 						: modelItems.includes(item)
 				})
-				.map((item) => (typeof item === 'object' ? item[labelKey] : item))
+				.map((item: Record<string, unknown> | string) =>
+					typeof item === 'object' ? item[labelKey] : item
+				)
 
 			return items
 		} else {
 			const items = props.select.dropdown?.items
-				?.filter((item) => {
+				?.filter((item: Record<string, unknown> | string) => {
 					if (typeof item === 'object') {
 						return typeof modelValue === 'object'
 							? modelValue[valueKey] === item[valueKey]
@@ -93,7 +95,9 @@ const selectedItems = computed(() => {
 							: modelValue === item
 					}
 				})
-				.map((item) => (typeof item === 'object' ? item[labelKey] : item))
+				.map((item: Record<string, unknown> | string) =>
+					typeof item === 'object' ? item[labelKey] : item
+				)
 
 			return items
 		}

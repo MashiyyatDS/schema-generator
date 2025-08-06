@@ -13,8 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import type { LnInputSelectMenu } from '~/types/laranuxt/LnInput'
-
 defineEmits(['valueChanges'])
 
 const select = defineModel<LnInputSelectMenu>({

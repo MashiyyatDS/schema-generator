@@ -12,14 +12,14 @@
 						field.type === 'select-menu' ||
 						field.type === 'input-menu'
 					"
-					:field-name="key"
+					:field-name="`${key}`"
 					:select="field" />
 
 				<UCard
 					v-else
 					:ui="{ body: 'xl:p-2 lg:p-2 md:p-2 sm:p-2 p-2 flex justify-between' }"
 					class="rounded mb-1">
-					<span class="text-sm">{{ convertStringCases(key).regular }} </span>
+					<span class="text-sm">{{ convertStringCases(`${key}`).regular }} </span>
 
 					<span class="text-sm text-green-400 font-bold">{{ field.value }}</span>
 				</UCard>
@@ -40,7 +40,5 @@
 </template>
 
 <script setup lang="ts">
-import type { LnFormPreview } from '~/types/laranuxt/LnForm'
-
 withDefaults(defineProps<{ preview: LnFormPreview; form: LnForm }>(), {})
 </script>

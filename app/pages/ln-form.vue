@@ -20,8 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import type { LnExport } from '~/types/laranuxt/LnForm'
-
 const exportFile = reactive<LnExport>({
 	headers: [
 		{

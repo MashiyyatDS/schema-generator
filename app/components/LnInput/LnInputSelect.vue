@@ -11,8 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import type { LnInputSelect } from '~/types/laranuxt/LnInput'
-
 defineEmits(['valueChanges'])
 
 const select = defineModel<LnInputSelect>({ required: true })

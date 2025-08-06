@@ -59,8 +59,6 @@
 </template>
 
 <script setup lang="ts">
-import type { LnInput } from '~/types/laranuxt/LnInput'
-
 const lnInput = defineModel<LnInput>({
 	required: true,
 })

@@ -3,7 +3,6 @@
 </template>
 
 <script setup lang="ts">
-import type { LnInputRadioGroup } from '~/types/laranuxt/LnInput'
 import type { RadioGroupItem } from '@nuxt/ui'
 
 const lnInput = defineModel<LnInputRadioGroup>({ required: true })
