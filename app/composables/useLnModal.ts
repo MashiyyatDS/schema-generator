@@ -8,7 +8,7 @@ export default function (
 	payload?: Record<string, any>,
 	callback?: (response?: any) => any
 ) {
-	if (modelValue?.form && payload) useLnForm.setFormData(modelValue.form, payload)
+	if (modelValue?.form && payload) useLnForm.set(modelValue.form, payload)
 
 	modalOverlay.open({ modelValue, callback })
 }

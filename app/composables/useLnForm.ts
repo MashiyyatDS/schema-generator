@@ -2,15 +2,16 @@ class UseLnForm {
 	get(lnForm: LnForm) {
 		const data: Record<string, any> = {}
 
-		Object.entries(lnForm.fields).map(([key, field]) => {
+		for (const [key, field] of Object.entries(lnForm.fields)) {
 			data[key] = useLnInput.get(field)
-		})
+		}
 
 		if (lnForm?.forms) {
-			Object.entries(lnForm?.forms).map(([key, fForm]) => {
-				const formValue = this.get(fForm)
+			for (const [key, form] of Object.entries(lnForm.forms)) {
+				const formValue = this.get(form)
+
 				data[key] = formValue
-			})
+			}
 		}
 
 		return data
@@ -22,17 +23,21 @@ class UseLnForm {
 		}
 
 		if (lnForm.forms) {
-			Object.entries(lnForm.forms).map(([key, fForm]) => {
-				if (payload[key]) this.set(fForm, payload[key])
-			})
+			for (const [key, form] of Object.entries(lnForm.forms)) {
+				if (payload[key]) this.set(form, payload[key])
+			}
 		}
 	}
 
 	reset(lnForm: LnForm) {
-		Object.values(lnForm.fields).map((field) => useLnInput.reset(field))
+		for (const field of Object.values(lnForm.fields)) {
+			useLnInput.reset(field)
+		}
 
 		if (lnForm.forms) {
-			Object.values(lnForm.forms).map((form) => this.reset(form))
+			for (const form of Object.values(lnForm.forms)) {
+				this.reset(form)
+			}
 		}
 	}
 
