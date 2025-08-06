@@ -76,6 +76,31 @@ const useNavigation = ref<NavigationInterface[][]>([
 				},
 			],
 		},
+		{
+			label: 'Users',
+			icon: 'i-lucide-book-open',
+			defaultOpen: true,
+			children: [
+				{
+					label: 'Manage Permissions',
+					description: 'Learn how to install and configure Nuxt UI in your application.',
+					icon: 'i-lucide-cloud-download',
+					to: '/users/manage-permissions',
+				},
+				{
+					label: 'Manage roles',
+					icon: 'i-lucide-smile',
+					description: 'You have nothing to do, @nuxt/icon will handle it automatically.',
+					to: '/users/manage-roles',
+				},
+				{
+					label: 'Manage Users',
+					description: 'Learn how to install and configure Nuxt UI in your application.',
+					icon: 'i-lucide-cloud-download',
+					to: '/users/manage-users',
+				},
+			],
+		},
 	],
 	[
 		{
