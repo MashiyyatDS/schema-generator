@@ -42,6 +42,8 @@
 </template>
 
 <script setup lang="ts">
+import type { LnExport, LnForm } from '~/types/laranuxt'
+
 const exportFile = reactive<LnExport>({
 	headers: [
 		{
@@ -312,6 +314,7 @@ function openModal() {
 	useLnModal(
 		{
 			form,
+			uploader: true,
 			attributes: {
 				title: 'LaraNuxt Dynamic Modal',
 				close: true,
@@ -346,5 +349,5 @@ function openModal() {
 //const formValue = computed(() => useLnForm.get(form))
 //watch(formValue, () => console.log('Form Value Changed'))
 
-definePageMeta({ layout: 'dashboard' })
+definePageMeta({ layout: 'dashboard-layout' })
 </script>

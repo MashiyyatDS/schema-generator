@@ -115,4 +115,6 @@ async function startGenerate() {
 		color: 'success',
 	})
 }
+
+definePageMeta({ layout: 'dashboard-layout' })
 </script>

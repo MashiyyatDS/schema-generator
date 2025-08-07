@@ -9,7 +9,8 @@ export default defineNuxtConfig({
 	modules: ['@nuxt/eslint', '@nuxt/scripts', '@nuxt/ui'],
 	css: ['~/assets/main.css'],
 	imports: {
-		dirs: ['./types/*/*.ts', './composables/*/*.ts'],
+		autoImport: true,
+		dirs: ['~/types/*/*.ts', '~/composables/*/*.ts'],
 	},
 	ssr: false,
 	plugins: [
