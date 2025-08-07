@@ -11,8 +11,8 @@
 							class="bg-primary cursor-pointer self-center"
 							@click="drawer = !drawer" />
 
-						<span class="self-center text-md">
-							{{ new Date().toLocaleDateString() }}
+						<span class="self-center text-md font-bold text-primary">
+							{{ currentDateTime }}
 						</span>
 					</div>
 					<div class="flex items-center">
@@ -188,6 +188,27 @@ onBeforeMount(() => {
 
 			if (smAndLarger.value && drawer.value) drawer.value = !drawer.value
 		})
+	})
+})
+
+const currentDateTime = ref('')
+
+onMounted(() => {
+	nextTick(() => {
+		const worker = new Worker(new URL('../workers/time.worker.ts', import.meta.url), {
+			type: 'module',
+		})
+
+		worker.postMessage('request-time')
+
+		worker.onmessage = (event: MessageEvent) => {
+			worker.postMessage('request-time')
+
+			currentDateTime.value = event.data
+		}
+		//worker.onmessage = (event) => {
+		//	console.log(event.data)
+		//}
 	})
 })
 
