@@ -1,39 +1,41 @@
 <template>
-	<UApp>
-		<UDrawer
-			v-model:open="drawer"
-			direction="left"
-			title="Sidebar"
-			description="delossantos.mash@gmail.com"
-			class="rounded-none"
+	<div class="flex overflow-hidden">
+		<UCard
+			class="transform transition-transform duration-300 ease-in-out"
+			:class="sidebarClass"
 			:ui="{
-				header: 'h-[50px] p-2 rounded-none',
-				body: 'w-[280px] p-1 sidebar-container border-t border-gray-800',
-				container: 'p-0 h-screen',
-			}"
-			:modal="false"
-			:handle="false">
-			<template #body>
-				<UNavigationMenu orientation="vertical" :items="useNavigation" />
+				root: 'w-[300px] h-screen rounded-none sidebar',
+				header: 'lg:p-1 md:p-1 sm:p-1 p-2 sidebar-header h-[50px]',
+				body: 'lg:p-1 md:p-1 sm:p-1 p-1 sidebar-container',
+			}">
+			<template #header>
+				<div class="flex items-center h-full">
+					<span>Sidebar</span>
+				</div>
 			</template>
-		</UDrawer>
 
-		<div
-			class="h-screen w-screen right-0 absolute transition-all duration-300 ease-in-out"
-			:class="drawer ? 'main-screen-toggled' : 'main-screen'">
-			<div class="layout-container p-3">
-				<UButton label="Open" color="neutral" variant="subtle" @click="drawer = !drawer" />
+			<UNavigationMenu orientation="vertical" :items="useNavigation" />
+		</UCard>
 
-				<UBreadcrumb :items="breadcrumbItems" />
+		<!-- Main Content -->
+		<div class="flex-1 transition-all duration-300 ease-in-out">
+			<UButton label="Toggle" @click="drawer = !drawer" />
 
-				<slot />
-			</div>
+			<UBreadcrumb :items="breadcrumbItems" />
+
+			<slot />
 		</div>
-	</UApp>
+	</div>
 </template>
 
 <script setup lang="ts">
 const drawer = ref(true)
+
+const sidebarClass = computed(() => ({
+	'-translate-x-full': !drawer.value,
+	'translate-x-0': drawer.value,
+	hidden: !drawer.value,
+}))
 
 const breadcrumbItems = computed(() => {
 	const route = useRoute()
@@ -54,16 +56,20 @@ const breadcrumbItems = computed(() => {
 </script>
 
 <style lang="scss">
-.sidebar-container {
-	height: calc(100vh - 50px);
-	overflow: auto;
+.sidebar {
+	height: 100vh;
+
+	&-container {
+		height: calc(100vh - 50px);
+		overflow: auto;
+	}
 }
 
 .main-screen {
-	width: 100vw;
+	width: 100%;
 
 	&-toggled {
-		width: calc(100vw - 280px);
+		width: calc(100% - 300px);
 	}
 }
 </style>

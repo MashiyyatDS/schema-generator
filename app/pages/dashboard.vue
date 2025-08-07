@@ -1,38 +1,43 @@
 <template>
-	<div class="flex gap-1 self-center">
-		<UButton
-			class="cursor-pointer rounded-sm"
-			label="Modal"
-			icon="lineicons:dialogflow"
-			@click="openModal" />
+	<div class="flex flex-col justify-center gap-1">
+		<div class="flex gap-1 self-center">
+			<UButton
+				class="cursor-pointer rounded-sm"
+				label="Modal"
+				icon="lineicons:dialogflow"
+				@click="openModal" />
 
-		<UButton
-			class="cursor-pointer"
-			label="Reset"
-			icon="material-symbols:reset-wrench"
-			@click="useLnForm.reset(form)" />
+			<UButton
+				class="cursor-pointer"
+				label="Reset"
+				icon="material-symbols:reset-wrench"
+				@click="useLnForm.reset(form)" />
 
-		<UButton
-			class="cursor-pointer"
-			label="Validate"
-			icon="material-symbols:person-check-rounded"
-			@click="useLnForm.validate(form)" />
-		<LnExport
-			v-for="(exporter, key) in [
-				{ type: 'pdf', icon: 'ant-design:file-pdf-filled' },
-				{ type: 'csv', icon: 'file-icons:microsoft-excel' },
-			]"
-			:key="key"
-			:export="exportFile">
-			<template #default="{ exportFile: startExporting, pending }">
-				<UButton
-					class="cursor-pointer rounded-sm"
-					:label="`Export ${exporter.type.toUpperCase()}`"
-					:icon="exporter.icon"
-					:loading="pending"
-					@click="startExporting(exporter.type)" />
-			</template>
-		</LnExport>
+			<UButton
+				class="cursor-pointer"
+				label="Validate"
+				icon="material-symbols:person-check-rounded"
+				@click="useLnForm.validate(form)" />
+		</div>
+
+		<div class="flex self-center gap-1">
+			<LnExport
+				v-for="(exporter, key) in [
+					{ type: 'pdf', icon: 'ant-design:file-pdf-filled' },
+					{ type: 'csv', icon: 'file-icons:microsoft-excel' },
+				]"
+				:key="key"
+				:export="exportFile">
+				<template #default="{ exportFile: startExporting, pending }">
+					<UButton
+						class="cursor-pointer rounded-sm"
+						:label="`Export ${exporter.type.toUpperCase()}`"
+						:icon="exporter.icon"
+						:loading="pending"
+						@click="startExporting(exporter.type)" />
+				</template>
+			</LnExport>
+		</div>
 	</div>
 </template>
 
