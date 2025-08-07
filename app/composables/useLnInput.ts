@@ -1,3 +1,4 @@
+import type { LnInput, LnInputSelect, LnInputSelectMenu, LnInputMenu } from '~/types/laranuxt'
 import { validate } from 'robust-validator'
 
 export class UseLnInput {

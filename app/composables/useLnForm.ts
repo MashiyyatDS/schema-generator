@@ -1,3 +1,5 @@
+import type { LnForm, LnInput } from '~/types/laranuxt'
+
 class UseLnForm {
 	get(lnForm: LnForm) {
 		const data: Record<string, any> = {}

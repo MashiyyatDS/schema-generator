@@ -45,9 +45,9 @@
 			</div>
 		</div>
 
-		<div class="p-4 transition-all duration-300 mt-[50px]" :class="{ 'sm:ml-[300px]': drawer }">
+		<div class="p-1 transition-all duration-300 mt-[50px]" :class="{ 'sm:ml-[300px]': drawer }">
 			<div
-				class="p-2 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-800 mb-2">
+				class="p-2 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-800 mb-1">
 				<UBreadcrumb :items="breadcrumbItems" />
 			</div>
 
@@ -168,7 +168,7 @@ const items = ref<DropdownMenuItem[][]>([
 	],
 ])
 
-onMounted(() => {
+onBeforeMount(() => {
 	detectBreakpoint()
 
 	window.addEventListener('resize', () => detectBreakpoint())
