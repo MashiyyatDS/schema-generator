@@ -7,7 +7,7 @@
 <script setup lang="ts">
 const currentRoute = useRoute().params['module']
 
-definePageMeta({ layout: 'dashboard' })
+definePageMeta({ layout: 'dashboard-layout' })
 
 useHead({
 	title: 'Module',

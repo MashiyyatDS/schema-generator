@@ -66,6 +66,7 @@
 
 <script setup lang="ts">
 import type { StepperItem } from '@nuxt/ui'
+import type { LnModal } from '~/types/laranuxt'
 
 const props = withDefaults(defineProps<{ callback?: (response: any) => void }>(), {})
 const modal = defineModel<LnModal>({ required: true })
