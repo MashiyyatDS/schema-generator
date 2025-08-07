@@ -1,5 +1,7 @@
 <template>
-	<div />
+	<div>
+		<h1>Manage Users</h1>
+	</div>
 </template>
 
 <script setup lang="ts">

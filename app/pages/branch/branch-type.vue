@@ -1,5 +1,7 @@
 <template>
-	<div />
+	<div>
+		<h1>Branch Type</h1>
+	</div>
 </template>
 
 <script setup lang="ts">
