@@ -58,6 +58,7 @@
 
 <script setup lang="ts">
 import type { DropdownMenuItem } from '@nuxt/ui'
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
 const drawer = ref(true)
 
@@ -166,6 +167,20 @@ const items = ref<DropdownMenuItem[][]>([
 		},
 	],
 ])
+
+onMounted(() => {
+	detectBreakpoint()
+
+	window.addEventListener('resize', () => detectBreakpoint())
+})
+
+function detectBreakpoint() {
+	const breakpoints = useBreakpoints(breakpointsTailwind)
+
+	const smAndLarger = breakpoints.smaller('md')
+
+	drawer.value = !smAndLarger.value
+}
 </script>
 
 <style lang="scss">
