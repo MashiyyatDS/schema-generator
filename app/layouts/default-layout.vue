@@ -1,9 +1,7 @@
 <template>
-	<div>
-		<UApp>
-			<slot />
-		</UApp>
-	</div>
+	<UApp>
+		<slot />
+	</UApp>
 </template>
 
 <script setup lang="ts"></script>

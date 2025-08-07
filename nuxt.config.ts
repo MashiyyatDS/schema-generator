@@ -25,4 +25,7 @@ export default defineNuxtConfig({
 			appUrl: process.env.APP_URL,
 		},
 	},
+	app: {
+		pageTransition: { name: 'page', mode: 'out-in' },
+	},
 })

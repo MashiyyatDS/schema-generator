@@ -350,4 +350,6 @@ function openModal() {
 //watch(formValue, () => console.log('Form Value Changed'))
 
 definePageMeta({ layout: 'dashboard-layout' })
+
+useHead({ title: 'Dashboard' })
 </script>
