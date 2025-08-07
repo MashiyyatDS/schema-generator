@@ -47,7 +47,8 @@
 			</div>
 
 			<div
-				class="p-1 transition-all duration-300 mt-[50px]"
+				id="mainContainer"
+				class="p-1 transition-all duration-300 mt-[50px] main-container"
 				:class="{ 'sm:ml-[300px]': drawer }">
 				<div
 					class="p-2 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-800 mb-1">
@@ -176,6 +177,18 @@ onBeforeMount(() => {
 	detectBreakpoint()
 
 	window.addEventListener('resize', () => detectBreakpoint())
+
+	nextTick(() => {
+		const mainContainer = document.getElementById('mainContainer') as HTMLDivElement
+
+		mainContainer.addEventListener('click', () => {
+			const breakpoints = useBreakpoints(breakpointsTailwind)
+
+			const smAndLarger = breakpoints.smaller('md')
+
+			if (smAndLarger.value && drawer.value) drawer.value = !drawer.value
+		})
+	})
 })
 
 function detectBreakpoint() {
@@ -200,12 +213,8 @@ function detectBreakpoint() {
 	}
 }
 
-.main-screen {
-	width: 100%;
-
-	&-toggled {
-		width: calc(100% - 300px);
-	}
+.main-container {
+	height: calc(100vh - 50px);
 }
 
 .page-enter-active,
