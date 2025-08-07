@@ -1,26 +1,38 @@
 <template>
-	<div class="flex overflow-hidden">
-		<UCard
-			class="transform transition-transform duration-300 ease-in-out"
-			:class="sidebarClass"
-			:ui="{
-				root: 'w-[300px] h-screen rounded-none sidebar',
-				header: 'lg:p-1 md:p-1 sm:p-1 p-2 sidebar-header h-[50px]',
-				body: 'lg:p-1 md:p-1 sm:p-1 p-1 sidebar-container',
-			}">
-			<template #header>
-				<div class="flex items-center h-full">
-					<span>Sidebar</span>
+	<!-- Navbar -->
+	<nav class="fixed top-0 z-60 w-full border-b border-gray-800 bg-sky-950 h-[50px]">
+		<div class="flex items-center justify-between h-full pl-2 pr-2">
+			<div class="flex items-center justify-start rtl:justify-end gap-3">
+				<UButton
+					icon="material-symbols:menu"
+					class="bg-blue-600 cursor-pointer self-center"
+					@click="drawer = !drawer" />
+
+				<span class="self-center text-xl"> LaraNuxt </span>
+			</div>
+			<div class="flex items-center">
+				<div class="flex items-center ms-3">
+					<!-- Dropdown here... -->
 				</div>
-			</template>
+			</div>
+		</div>
+	</nav>
 
+	<!-- Sidebar -->
+	<div
+		class="sidebar w-[300px] fixed bottom-0 left-0 z-55 h-screen bg-[#0f172b] transition-transform duration-300 border-r border-gray-800"
+		:class="{ '-translate-x-full': !drawer }">
+		<div class="sidebar-header">
+			<span>LaraNuxt</span>
+		</div>
+
+		<div class="sidebar-content overflow-auto border-t border-gray-800 p-2">
 			<UNavigationMenu orientation="vertical" :items="useNavigation" />
-		</UCard>
+		</div>
+	</div>
 
-		<!-- Main Content -->
-		<div class="flex-1 transition-all duration-300 ease-in-out">
-			<UButton label="Toggle" @click="drawer = !drawer" />
-
+	<div class="p-4 transition-all duration-300 mt-[50px]" :class="{ 'sm:ml-[300px]': drawer }">
+		<div class="p-3 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-800">
 			<UBreadcrumb :items="breadcrumbItems" />
 
 			<slot />
@@ -29,13 +41,7 @@
 </template>
 
 <script setup lang="ts">
-const drawer = ref(true)
-
-const sidebarClass = computed(() => ({
-	'-translate-x-full': !drawer.value,
-	'translate-x-0': drawer.value,
-	hidden: !drawer.value,
-}))
+const drawer = ref(false)
 
 const breadcrumbItems = computed(() => {
 	const route = useRoute()
@@ -57,11 +63,14 @@ const breadcrumbItems = computed(() => {
 
 <style lang="scss">
 .sidebar {
-	height: 100vh;
+	height: calc(100vh - 50px);
 
-	&-container {
-		height: calc(100vh - 50px);
-		overflow: auto;
+	&-header {
+		height: 50px;
+	}
+
+	&-content {
+		height: calc(100% - 50px);
 	}
 }
 

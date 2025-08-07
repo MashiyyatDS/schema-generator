@@ -1,45 +1,16 @@
 <template>
-	<nav
-		class="fixed top-0 z-50 w-full border-b bg-white border-gray-200 dark:bg-stone-900 dark:border-gray-700">
-		<div class="px-2 py-2 lg:px-5 lg:pl-3">
+	<nav class="fixed top-0 z-60 w-full bg-blue-400 h-[50px]">
+		<div class="px-3 py-3 lg:px-5 lg:pl-3">
 			<div class="flex items-center justify-between">
-				<div class="flex items-center justify-start rtl:justify-end">
-					<UButton
-						icon="material-symbols:menu"
-						size="md"
-						class="sm:hidden"
-						@click="sidebar = !sidebar" />
+				<div class="flex items-center justify-start rtl:justify-end gap-3">
+					<UButton icon="material-symbols:menu" class="bg-blue-600" />
 
-					<span class="font-medium ml-3">LaraNuxt</span>
+					<span class="self-center text-xl"> LaraNuxt </span>
 				</div>
-
-				<div class="flex">
-					<UButton
-						class="rounded-full mr-3"
-						:icon="
-							useColorMode().preference === 'dark'
-								? 'material-symbols:dark-mode'
-								: 'material-symbols:light-mode-rounded'
-						"
-						@click="
-							useColorMode().preference =
-								useColorMode().value === 'dark' ? 'light' : 'dark'
-						" />
-
-					<UDropdownMenu
-						arrow
-						:items="items"
-						:ui="{
-							content: 'w-48',
-						}">
-						<UButton
-							size="xs"
-							class="bg-transparent rounded-full hover:cursor-pointer m-0 p-0"
-							:avatar="{
-								src: 'https://github.com/benjamincanac.png',
-								size: 'md',
-							}" />
-					</UDropdownMenu>
+				<div class="flex items-center">
+					<div class="flex items-center ms-3">
+						<!-- Dropdown here... -->
+					</div>
 				</div>
 			</div>
 		</div>
