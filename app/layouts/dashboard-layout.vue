@@ -11,9 +11,7 @@
 							class="bg-primary cursor-pointer self-center"
 							@click="drawer = !drawer" />
 
-						<span class="self-center text-md font-bold text-primary">
-							{{ currentDateTime }}
-						</span>
+						<UKbd :value="currentDateTime" size="lg" />
 					</div>
 					<div class="flex items-center">
 						<div class="flex items-center ms-3">
